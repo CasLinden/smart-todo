@@ -1,5 +1,5 @@
-import {todos} from './index.js'
-console.log(todos)
+import {todos, instantiateTodo} from './todos.js'
+
 
 
 function makeHeader(){
@@ -10,7 +10,6 @@ function makeHeader(){
   header.appendChild(title);
   document.body.appendChild(header);
 }
-
 makeHeader()
 
 function toDoContainer(){
@@ -18,18 +17,18 @@ function toDoContainer(){
   container.classList.add('to-do-container');
   document.body.appendChild(container);
 }
-
-toDoContainer()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+toDoContainer()       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 
 export default function add(item){
 let container = document.querySelector('.to-do-container');
 
 let itemContainer = document.createElement('div');
-itemContainer.classList.add('item-container', `${item.num}`)
+itemContainer.classList.add('item-container')
 
 
 let itemTitle = document.createElement('span');
-itemTitle.textContent = item.name;
+if(item){itemTitle.textContent = item.name;}
 itemContainer.appendChild(itemTitle);
  
 let deleteIcon = document.createElement('div')
@@ -49,9 +48,22 @@ editIcon.addEventListener('click', edit);
 
 itemContainer.appendChild(editIcon);
 
-
-
 itemContainer.appendChild(deleteIcon);
 container.appendChild(itemContainer);
 }
+
+function newButton () {
+  let container = document.querySelector('.to-do-container');
+
+  let addBtn = document.createElement('div')
+  addBtn.classList.add('new-button');
+  addBtn.textContent = 'ADD A NEW ITEM';
+  container.appendChild(addBtn)
+}
+newButton()
+
+
+
+let tea = todos.push(instantiateTodo('make tea', 'make sure to pour on the bag or LLoyd gets upset'));
+console.log(tea)
 

@@ -1,6 +1,3 @@
-p {
-    color: red;
-}
 
 body{
     display: grid;
@@ -30,9 +27,20 @@ body{
     margin: 5px;
     width: 100%;
     height: 2rem;
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 1fr 2rem 2rem;
+    align-items: center;
 }
+ .new-button{
+    background: white;
+    margin: 5px;
+    width: 100%;
+    height: 2rem;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
 
 .delete-icon{
     background-color: red;
@@ -49,4 +57,5 @@ body{
 .being-edited{
     background: white;
     height: 4rem;
+    border: 2px dotted black;
 }
