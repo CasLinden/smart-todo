@@ -5,7 +5,7 @@ module.exports = {
   mode: 'development',
   entry: {
     index: './src/index.js',
-    print: './src/new.js',
+    domstuff: './src/domstuff.js',
   },
   devServer: {
     static: './dist',

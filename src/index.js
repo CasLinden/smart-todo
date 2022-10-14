@@ -1,10 +1,25 @@
 import './style.css';
-import printMe from './new.js';
+import add from './domstuff.js';
 
-printMe()
+function instantiateItem(name, desc) {
+    return {
+        name,
+        desc,
+        giveDesc() {
+        return desc
+        }
+    }
+}
 
-let lichaam = document.querySelector('body');
+let todos = [];
 
-let pee = document.createElement('p')
-pee.textContent = 'Dit is rood';
-lichaam.appendChild(pee);
+let laundry = todos.push(instantiateItem("fold laundry", "fold the laundry that's out from 2 days ago"));
+let dishes = todos.push( instantiateItem("do dishes", "do yesterday's dishes and scrub the sink"));
+
+let renderTodos = () => todos.forEach(element => { add(element)}); 
+renderTodos()
+
+console.log(todos)
+
+
+export {todos} 
