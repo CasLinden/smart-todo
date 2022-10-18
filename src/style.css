@@ -1,3 +1,11 @@
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-family: 'Ubuntu';
+}
 
 body{
     display: grid;
@@ -28,11 +36,11 @@ body{
     width: 100%;
     height: 2rem;
     display: grid;
-    grid-template-columns: 1fr 2rem 2rem;
+    grid-template-columns: 1fr 3fr 2rem 2rem;
     align-items: center;
 }
- .new-button{
-    background: white;
+ .create-button{
+    background: lightskyblue;
     margin: 5px;
     width: 100%;
     height: 2rem;
@@ -40,7 +48,6 @@ body{
     justify-items: center;
     align-items: center;
 }
-
 
 .delete-icon{
     background-color: red;
@@ -56,6 +63,6 @@ body{
 
 .being-edited{
     background: white;
-    height: 4rem;
+    height: 8rem;
     border: 2px dotted black;
 }
