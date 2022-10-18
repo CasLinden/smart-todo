@@ -31,7 +31,7 @@ body{
 }
 
 .item-container{
-    background: grey;
+    background:lightskyblue;
     margin: 5px;
     width: 100%;
     height: 2rem;
@@ -40,7 +40,7 @@ body{
     align-items: center;
 }
  .create-button{
-    background: lightskyblue;
+    background: greenyellow;
     margin: 5px;
     width: 100%;
     height: 2rem;

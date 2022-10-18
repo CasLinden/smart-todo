@@ -1,26 +1,26 @@
 import {todos, instantiateTodo, editTodo} from './todos.js'
 import {makeHeader, toDoContainer, newButton, deleteIcon, editIcon, itemContainer, itemTitle, itemDescription, nameInput, descriptionInput} from './domelements.js'
 
-function toDOM(item){
+function toDOM(todo){
 let toDoContainer = document.querySelector('.to-do-container');
 let itmContainer = itemContainer();
-let itmTitle = itemTitle(item);
-let itmDescription = itemDescription(item);
-let delIcon = deleteIcon();
-let edIcon = editIcon();
-
-
-itmContainer.appendChild(itmTitle);
-itmContainer.appendChild(itmDescription);
-itmContainer.appendChild(edIcon);
-itmContainer.appendChild(delIcon);
+itmContainer.setAttribute('data-key', `${todo.key}`)
+itmContainer.appendChild(itemTitle(todo));
+itmContainer.appendChild(itemDescription(todo));
+itmContainer.appendChild(editIcon());
+itmContainer.appendChild(deleteIcon());
 toDoContainer.appendChild(itmContainer);
 }
 
+function processEditForm (item, name, description) {
+    while (item.firstChild) {
+        item.removeChild(item.lastChild);
+    }
+    item.appendChild()
+}
 
 
-
-export {toDOM}
+export {toDOM, processEditForm}
 
 
 

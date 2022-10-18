@@ -1,10 +1,12 @@
-import {toDOM} from "./domstuff.js";
-import {formDOM} from './domelements.js'
+import {toDOM, processEditForm} from "./domstuff.js";
+import {newFormDOM, createButton} from './domelements.js'
+import {randomKey} from './keygenerator.js'
 
 function instantiateTodo(name, desc) {
     return {
         name,
         desc,
+        key: randomKey(),
         giveDesc() {
         return desc
         }
@@ -27,21 +29,42 @@ let renderTodo = (todo) => {
     toDOM(todo);
 };
 
+let findTodo  = (dataKey) => {
+    return todos.filter(todo => todo.key == dataKey)
+}
 
-function editTodo(item){
-    item.classList.add('being-edited');      
+
+function editForm(item){
+    item.classList.add('being-edited');
+    const name = item.childNodes[0].textContent
+    const description = item.childNodes[1].textContent
+    while (item.firstChild) {
+        item.removeChild(item.lastChild);
+    }
+    newFormDOM(item, name, description);
+
 };
 
-function createTodo (item) {
+function createForm (item) {
     item.classList.add('being-edited');
     item.textContent = "";
-    formDOM(item);
+    newFormDOM(item);
 };
 
-function submitForm() {
-    let name = document.getElementById('name-input').value
-    let description = document.getElementById('description-input').value
-    exampleTodo(name, description)
+function submitForm(item) {
+    const name = item.childNodes[0].value
+    const description = item.childNodes[1].value
+    if(item.classList.contains('editable')){
+        let key = item.getAttribute('data-key');
+        findTodo(key).name = name;
+        findTodo(key).description = description;
+        console.log(findTodo(key))
+    
+    } else{
+    exampleTodo(name, description);
+    item.remove()
+    }
+    console.log(todos)
 };
 
-export {todos, instantiateTodo, editTodo, renderTodos, renderTodo, createTodo, exampleTodo, submitForm}
+export {todos, instantiateTodo, editForm, renderTodos, renderTodo, createForm, exampleTodo, submitForm}
