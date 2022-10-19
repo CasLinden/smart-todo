@@ -21,7 +21,7 @@ body{
     width: 100%;
 }
 
-.to-do-container{
+.todos-container{
     background-color: whitesmoke;
     width: 700px;
     height: 100vh;
@@ -30,7 +30,7 @@ body{
 
 }
 
-.item-container{
+.todo-container{
     background:lightskyblue;
     margin: 5px;
     width: 100%;
