@@ -14,7 +14,7 @@ function instantiateTodo(name, desc) {
 
 const todos = [];
 
-function exampleTodo(name, desc) {
+function newTodo(name, desc) {
     let todo = instantiateTodo(name, desc);
     todos.push(todo);
     newToDOM(todo);
@@ -30,7 +30,7 @@ function editTodo(todo, name, description){
     let me = findTodoObj(todo)
     me.name = name;
     me.desc = description; 
-    console.log(todos)
+    console.log(todos);
 }
 
-export {todos, instantiateTodo, exampleTodo, editTodo, findTodoObj}
+export {todos, instantiateTodo, newTodo, editTodo, findTodoObj}

@@ -12,7 +12,7 @@ function newToDOM (todo){
     toDosContainer.appendChild(newTodoElement);
 }
 
-function editToDOM (todo, name, description) {
+function editToDOM (todo) {
     while (todo.firstChild) {
         todo.removeChild(todo.lastChild);
     }

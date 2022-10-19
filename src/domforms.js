@@ -1,4 +1,4 @@
-import {exampleTodo, todos, editTodo} from './todos.js'
+import {newTodo, todos, editTodo} from './todos.js'
 import {editToDOM} from './domindex.js'
 
 function nameInput (value) {
@@ -55,9 +55,9 @@ function submitForm(todo) {
     const description = todo.childNodes[1].value
     if(todo.classList.contains('editable')){
         editTodo(todo, name, description);
-        editToDOM(todo, name, description);
+        editToDOM(todo);
     } else{
-    exampleTodo(name, description);
+    newTodo(name, description);
     todo.remove()
     }
 };
