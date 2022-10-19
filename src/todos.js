@@ -1,4 +1,4 @@
-import {toDOM, editToDOM} from "./domindex.js";
+import {newToDOM, editToDOM} from "./domindex.js";
 import {randomKey} from './keygenerator.js'
 
 function instantiateTodo(name, desc) {
@@ -17,12 +17,20 @@ const todos = [];
 function exampleTodo(name, desc) {
     let todo = instantiateTodo(name, desc);
     todos.push(todo);
-    toDOM(todo);
+    newToDOM(todo);
 };
 
-let findTodo  = (dataKey) => {
-    return todos.filter(todo => todo.key == dataKey)
+function findTodoObj(todo){
+    let key = todo.getAttribute('data-key');
+    let me = todos.find(element => element.key == key);
+    return me
 }
 
+function editTodo(todo, name, description){
+    let me = findTodoObj(todo)
+    me.name = name;
+    me.desc = description; 
+    console.log(todos)
+}
 
-export {todos, instantiateTodo, exampleTodo, findTodo}
+export {todos, instantiateTodo, exampleTodo, editTodo, findTodoObj}

@@ -1,4 +1,5 @@
 import {createForm, editForm} from './domforms'
+import {findTodoObj, todos} from './todos'
 
 function makeHeader(){
     let header = document.createElement('div');
@@ -17,15 +18,15 @@ function makeHeader(){
         
   function makeCreateButton () {
     let container = document.querySelector('.todos-container');
-    let addBtn = document.createElement('div')
-    addBtn.classList.add('create-button');
-    addBtn.textContent = '+';
-    addBtn.addEventListener('click', () => {
-      createForm(addBtn)
-      addBtn.classList.remove('create-button')
+    let createButton = document.createElement('div')
+    createButton.classList.add('create-button');
+    createButton.textContent = '+';
+    createButton.addEventListener('click', () => {
+      createForm(createButton)
+      createButton.classList.remove('create-button')
       makeCreateButton()
     }, {once : true});
-    container.insertBefore(addBtn, container.firstChild);
+    container.insertBefore(createButton, container.firstChild);
   }
 
 // ----------------ABOVE: site elements ---------------- BELOW: todos elements ----------------//
@@ -63,7 +64,12 @@ function makeHeader(){
   function deleteIcon () {
     let icon = document.createElement('div')
     icon.classList.add('delete-icon');
-    icon.addEventListener('click', () => icon.parentElement.remove())
+    icon.addEventListener('click', () => {
+      icon.parentElement.remove();
+      let me = findTodoObj(icon.parentElement);
+      let myIndex = todos.indexOf(me);
+      todos.splice(myIndex, 1);
+      });
     return icon
   }
   
