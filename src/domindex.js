@@ -1,9 +1,10 @@
-import {makeHeader, makeTodosContainer, makeCreateButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, nameInput, descriptionInput} from './domelements.js'
+import {makeHeader, makeTabsBar, makeTodosContainer, newTodoButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, nameInput, descriptionInput} from './domelements.js'
 import {findTodoObj} from './todos.js'
 
 makeHeader()
+makeTabsBar()
 makeTodosContainer() 
-makeCreateButton()
+newTodoButton()
 
 function newToDOM (todo){
     let toDosContainer = document.querySelector('.todos-container');
@@ -12,22 +13,22 @@ function newToDOM (todo){
     toDosContainer.appendChild(newTodoElement);
 }
 
-function editToDOM (todo) {
-    while (todo.firstChild) {
-        todo.removeChild(todo.lastChild);
+function editToDOM (element) {
+    while (element.firstChild) {
+        element.removeChild(element.lastChild);
     }
-    todo.classList.add('todo-container');
-    todo.classList.remove('being-edited');
-    let me = findTodoObj(todo);
-    toDOM(todo, me);
+    element.classList.add('todo-container');
+    element.classList.remove('being-edited');
+    let me = findTodoObj(element);
+    toDOM(element, me);
 }
 
-function toDOM(todoElement, todoObj){
-    todoElement.setAttribute('data-key', `${todoObj.key}`)
-    todoElement.appendChild(todoTitle(todoObj));
-    todoElement.appendChild(todoDescription(todoObj));
-    todoElement.appendChild(editIcon());
-    todoElement.appendChild(deleteIcon()); 
+function toDOM(element, todoObj){
+    element.setAttribute('data-key', `${todoObj.key}`)
+    element.appendChild(todoTitle(todoObj));
+    element.appendChild(todoDescription(todoObj));
+    element.appendChild(editIcon());
+    element.appendChild(deleteIcon()); 
 }
 
 export {toDOM, editToDOM, newToDOM}

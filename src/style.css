@@ -21,17 +21,41 @@ body{
     width: 100%;
 }
 
+h1{
+    font-size: 25px;
+}
+
+.tabs-bar{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    height: 80%;
+    grid-template-columns: 1fr 1fr;
+}
+
+.tab{
+    background: white;
+    font-size: 20px;
+    margin: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left: solid 1px black;
+    border-right: solid 1px black;
+}
+
 .todos-container{
     background-color: whitesmoke;
     width: 700px;
     height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
 
 }
 
 .todo-container{
-    background:lightskyblue;
+    background:white;
     margin: 5px;
     width: 100%;
     height: 2rem;
@@ -40,9 +64,10 @@ body{
     align-items: center;
 }
  .create-button{
-    background: greenyellow;
+    background:whitesmoke;
+    border: dotted black;
     margin: 5px;
-    width: 100%;
+    width: 80%;
     height: 2rem;
     display: grid;
     justify-items: center;
@@ -50,19 +75,20 @@ body{
 }
 
 .delete-icon{
-    background-color: red;
+    background: url('./icons/delete-svgrepo-com.svg');
     height: 1rem;
     width: 1rem;
 }
 
 .edit-icon{
-    background-color: greenyellow;
+    background: url('./icons/edit-svgrepo-com.svg');
     height: 1rem;
     width: 1rem;
 }
 
 .being-edited{
     background: white;
-    height: 8rem;
+    height: 3rem;
     border: 2px dotted black;
+    width: 100%;
 }

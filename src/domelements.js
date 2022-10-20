@@ -9,6 +9,33 @@ function makeHeader(){
     header.appendChild(title);
     document.body.appendChild(header);
   }
+
+  function makeTabsBar(){
+    const header = document.querySelector('.header');
+    const tabsBar = document.createElement('div');
+    tabsBar.classList.add('tabs-bar');
+    
+      function mainTab() {
+        const today = document.createElement('div');
+        today.classList.add('tab', 'maintab')
+        today.textContent = 'Today'
+        tabsBar.appendChild(today);
+      }
+
+      function newTabButton() {
+        const btn = document.createElement('div');
+        btn.classList.add('create-button');
+        btn.textContent = '+ project'
+        tabsBar.appendChild(btn)
+      }
+    
+    
+    mainTab()
+    newTabButton()
+    header.appendChild(tabsBar);
+  }
+
+
   
   function makeTodosContainer(){
     let container = document.createElement('div');
@@ -16,15 +43,15 @@ function makeHeader(){
     document.body.appendChild(container);
   }
         
-  function makeCreateButton () {
+  function newTodoButton () {
     let container = document.querySelector('.todos-container');
     let createButton = document.createElement('div')
     createButton.classList.add('create-button');
-    createButton.textContent = '+';
+    createButton.textContent = '+ To-Do';
     createButton.addEventListener('click', () => {
       createForm(createButton)
       createButton.classList.remove('create-button')
-      makeCreateButton()
+      newTodoButton()
     }, {once : true});
     container.insertBefore(createButton, container.firstChild);
   }
@@ -73,4 +100,4 @@ function makeHeader(){
     return icon
   }
   
-  export{makeHeader, makeTodosContainer, makeCreateButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription}
+  export{makeHeader, makeTabsBar, makeTodosContainer, newTodoButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription}
