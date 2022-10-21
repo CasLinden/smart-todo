@@ -1,10 +1,15 @@
-import {makeHeader, makeTabsBar, makeTodosContainer, newTodoButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, nameInput, descriptionInput} from './domelements.js'
+import {makeHeader, makeTabsBar, mainTab, newTabButton, makeTodosContainer, newTodoButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, nameInput, descriptionInput} from './domelements.js'
 import {findTodoObj} from './todos.js'
 
 makeHeader()
 makeTabsBar()
+
+mainTab()
+newTabButton()
+
 makeTodosContainer() 
 newTodoButton()
+
 
 function newToDOM (todo){
     let toDosContainer = document.querySelector('.todos-container');

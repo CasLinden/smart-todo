@@ -11,6 +11,7 @@ body{
     display: grid;
     align-items: center;
     justify-items: center;
+    background: whitesmoke;
 }
 
 .header{
@@ -44,7 +45,6 @@ h1{
 }
 
 .todos-container{
-    background-color: whitesmoke;
     width: 700px;
     height: 100vh;
     display: flex;
@@ -63,8 +63,9 @@ h1{
     grid-template-columns: 1fr 3fr 2rem 2rem;
     align-items: center;
 }
+
+ .create-project-button,
  .create-button{
-    background:whitesmoke;
     border: dotted black;
     margin: 5px;
     width: 80%;
@@ -78,6 +79,7 @@ h1{
     background: url('./icons/delete-svgrepo-com.svg');
     height: 1rem;
     width: 1rem;
+    
 }
 
 .edit-icon{
@@ -91,4 +93,20 @@ h1{
     height: 3rem;
     border: 2px dotted black;
     width: 100%;
+}
+
+.tabs-bar{
+    display: flex;
+}
+
+.project-name-input{
+    width: 100%;
+}
+
+.create-project-form{
+    display: flex;
+}
+
+.project-name-input{
+    width: 120px;
 }

@@ -1,5 +1,6 @@
-import {createForm, editForm} from './domforms'
-import {findTodoObj, todos} from './todos'
+import {createTodoForm, editTodoForm, editProjectName} from './domforms.js'
+import {findTodoObj, todos, renderTodos} from './todos.js'
+import {findProjectObj} from './projects.js'
 
 function makeHeader(){
     let header = document.createElement('div');
@@ -14,28 +15,41 @@ function makeHeader(){
     const header = document.querySelector('.header');
     const tabsBar = document.createElement('div');
     tabsBar.classList.add('tabs-bar');
-    
-      function mainTab() {
-        const today = document.createElement('div');
-        today.classList.add('tab', 'maintab')
-        today.textContent = 'Today'
-        tabsBar.appendChild(today);
-      }
-
-      function newTabButton() {
-        const btn = document.createElement('div');
-        btn.classList.add('create-button');
-        btn.textContent = '+ project'
-        tabsBar.appendChild(btn)
-      }
-    
-    
-    mainTab()
-    newTabButton()
     header.appendChild(tabsBar);
+    
   }
 
+  function mainTab() {
+    let tabsBar = document.querySelector('.tabs-bar');
+    const today = document.createElement('div');
+    today.classList.add('tab', 'maintab')
+    today.textContent = 'Today'
+    tabsBar.appendChild(today);
+  }
 
+  function newTabButton() {
+    let tabsBar = document.querySelector('.tabs-bar');
+    const btn = document.createElement('div');
+    btn.classList.add('create-project-button');
+    btn.textContent = '+ project'
+    btn.addEventListener('click', () => {
+     editProjectName(btn);
+    }, {once : true});
+    tabsBar.appendChild(btn)
+  }
+
+  function newTab(name, key){
+    let tabsBar = document.querySelector('.tabs-bar');
+    let projectTab = document.createElement('div');
+    projectTab.classList.add('tab');
+    projectTab.setAttribute('data-key', key)
+    projectTab.textContent = name
+    projectTab.addEventListener('click', () => {
+      let proj = findProjectObj(key);
+      console.log(proj)
+      });
+    tabsBar.appendChild(projectTab)
+  }
   
   function makeTodosContainer(){
     let container = document.createElement('div');
@@ -49,7 +63,7 @@ function makeHeader(){
     createButton.classList.add('create-button');
     createButton.textContent = '+ To-Do';
     createButton.addEventListener('click', () => {
-      createForm(createButton)
+      createTodoForm(createButton)
       createButton.classList.remove('create-button')
       newTodoButton()
     }, {once : true});
@@ -83,7 +97,7 @@ function makeHeader(){
     icon.classList.add('edit-icon');
     icon.addEventListener('click', () => {
       icon.parentElement.classList.remove('todo-container');
-      editForm(icon.parentElement)
+      editTodoForm(icon.parentElement)
     });
       return icon
   }
@@ -100,4 +114,4 @@ function makeHeader(){
     return icon
   }
   
-  export{makeHeader, makeTabsBar, makeTodosContainer, newTodoButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription}
+  export{makeHeader, makeTabsBar, mainTab, newTabButton, newTab, makeTodosContainer, newTodoButton,  deleteIcon, editIcon, todoContainer, todoTitle, todoDescription}

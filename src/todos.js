@@ -20,6 +20,7 @@ function newTodo(name, desc) {
     newToDOM(todo);
 };
 
+
 function findTodoObj(todo){
     let key = todo.getAttribute('data-key');
     let me = todos.find(element => element.key == key);
@@ -33,4 +34,8 @@ function editTodo(todo, name, description){
     console.log(todos);
 }
 
-export {todos, instantiateTodo, newTodo, editTodo, findTodoObj}
+function renderTodos(project){
+    project.forEach(element => {newToDOM(element)});
+}
+
+export {todos, instantiateTodo, newTodo, editTodo, findTodoObj, renderTodos}

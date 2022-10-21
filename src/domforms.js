@@ -1,5 +1,7 @@
 import {newTodo, todos, editTodo} from './todos.js'
 import {editToDOM} from './domindex.js'
+import {createProject} from './projects.js'
+import {newTabButton} from './domelements.js'
 
 function nameInput (value) {
     let input = document.createElement('input');
@@ -20,16 +22,29 @@ function nameInput (value) {
     return input
   }
 
-  function submitButton (todo) {
+  function submitTodoButton (todo) {
     let btn = document.createElement('button');
     btn.textContent = "submit";
-    btn.addEventListener('click', () => submitForm(todo))
+    btn.addEventListener('click', () => submitTodoForm(todo))
     return btn
   }
 
+  function submitProjectButton(){
+    let btn = document.createElement('button');
+    btn.textContent = "submit";
+    btn.addEventListener('click', () => {
+        submitProjectForm();
+        btn.parentElement.remove()
+        newTabButton()
+        } );
+    return btn
+  }
+
+
   // ----------------ABOVE: form elements ---------------- BELOW: form logic ----------------//
 
-function editForm(todo){
+
+  function editTodoForm(todo){
     const name = todo.childNodes[0].textContent
     const description = todo.childNodes[1].textContent
     while (todo.firstChild) {
@@ -38,19 +53,19 @@ function editForm(todo){
     renderForm(todo, name, description);
 };
 
-function createForm (todo) {
+function createTodoForm (todo) {
     todo.textContent = "";
     renderForm(todo);
 };
 
-function renderForm (todo, name, description) {
-    todo.classList.add('being-edited');
-    todo.appendChild(nameInput(name));
-    todo.appendChild(descriptionInput(description));
-    todo.appendChild(submitButton(todo));
+function renderForm (element, name, description) {
+    element.classList.add('being-edited');
+    element.appendChild(nameInput(name));
+    element.appendChild(descriptionInput(description));
+    element.appendChild(submitTodoButton(element));
 }
 
-function submitForm(todo) {
+function submitTodoForm(todo) {
     const name = todo.childNodes[0].value
     const description = todo.childNodes[1].value
     if(todo.classList.contains('editable')){
@@ -62,4 +77,20 @@ function submitForm(todo) {
     }
 };
 
-export {nameInput, descriptionInput, submitButton, renderForm, editForm, createForm, submitForm}
+function editProjectName(element){
+    element.firstChild.remove();
+    element.classList.remove('create-project-button');
+    element.classList.add('create-project-form');
+    let input = nameInput();
+    input.setAttribute('placeholder', 'Name your Project')
+    input.classList.add('project-name-input')
+    element.appendChild(input)
+    element.appendChild(submitProjectButton())
+}
+
+function submitProjectForm (){
+    let name = document.querySelector('.project-name-input').value;
+    createProject(name);
+};
+
+export {nameInput, descriptionInput, submitTodoButton, renderForm, editTodoForm, createTodoForm, submitTodoForm, editProjectName}
