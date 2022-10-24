@@ -11,29 +11,35 @@ makeTodosContainer()
 newTodoButton()
 
 
-function newToDOM (todo){
+function newToDOM (todo, project){
     let toDosContainer = document.querySelector('.todos-container');
     let newTodoElement = todoContainer();
-    toDOM(newTodoElement, todo)
+    toDOM(newTodoElement, todo, project)
     toDosContainer.appendChild(newTodoElement);
 }
 
-function editToDOM (element) {
+function editToDOM (element, project) {
     while (element.firstChild) {
         element.removeChild(element.lastChild);
     }
     element.classList.add('todo-container');
     element.classList.remove('being-edited');
-    let me = findTodoObj(element);
-    toDOM(element, me);
+    let me = findTodoObj(element, project);
+    toDOM(element, me, project);
 }
 
-function toDOM(element, todoObj){
+function toDOM(element, todoObj, project){
     element.setAttribute('data-key', `${todoObj.key}`)
     element.appendChild(todoTitle(todoObj));
     element.appendChild(todoDescription(todoObj));
-    element.appendChild(editIcon());
-    element.appendChild(deleteIcon()); 
+    if (project){
+        element.appendChild(editIcon(project));
+        element.appendChild(deleteIcon(project)); 
+       
+    } else {
+        element.appendChild(editIcon());
+        element.appendChild(deleteIcon());    
+    };  
 }
 
 export {toDOM, editToDOM, newToDOM}

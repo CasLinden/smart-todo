@@ -1,6 +1,6 @@
 import {createTodoForm, editTodoForm, editProjectName} from './domforms.js'
-import {findTodoObj, todos, renderTodos} from './todos.js'
-import {findProjectObj} from './projects.js'
+import {findTodoObj, renderTodos, renderAllTodos} from './todos.js'
+import {findProjectObj, projects} from './projects.js'
 
 function makeHeader(){
     let header = document.createElement('div');
@@ -22,8 +22,12 @@ function makeHeader(){
   function mainTab() {
     let tabsBar = document.querySelector('.tabs-bar');
     const today = document.createElement('div');
-    today.classList.add('tab', 'maintab')
-    today.textContent = 'Today'
+    today.classList.add('tab', 'maintab');
+    today.textContent = 'All';
+    today.addEventListener('click', () => {
+    renderAllTodos();
+    newTodoButton();
+    });
     tabsBar.appendChild(today);
   }
 
@@ -45,8 +49,9 @@ function makeHeader(){
     projectTab.setAttribute('data-key', key)
     projectTab.textContent = name
     projectTab.addEventListener('click', () => {
-      let proj = findProjectObj(key);
-      console.log(proj)
+      let objectus = findProjectObj(key)
+      renderTodos(objectus)
+      newTodoButton(objectus)
       });
     tabsBar.appendChild(projectTab)
   }
@@ -57,15 +62,19 @@ function makeHeader(){
     document.body.appendChild(container);
   }
         
-  function newTodoButton () {
+  function newTodoButton (project) {
     let container = document.querySelector('.todos-container');
     let createButton = document.createElement('div')
     createButton.classList.add('create-button');
-    createButton.textContent = '+ To-Do';
+    
+    if(project)
+      {createButton.textContent = `+ To-Do for ${project.name}`}
+      else {createButton.textContent = '+ To-Do';}
+
     createButton.addEventListener('click', () => {
-      createTodoForm(createButton)
+      createTodoForm(createButton, project)
       createButton.classList.remove('create-button')
-      newTodoButton()
+      newTodoButton(project)
     }, {once : true});
     container.insertBefore(createButton, container.firstChild);
   }
@@ -92,25 +101,30 @@ function makeHeader(){
     return description
   }
 
-  function editIcon() {
+  function editIcon(project) {
     let icon = document.createElement('div');
     icon.classList.add('edit-icon');
     icon.addEventListener('click', () => {
       icon.parentElement.classList.remove('todo-container');
-      editTodoForm(icon.parentElement)
+      editTodoForm(icon.parentElement, project)
     });
       return icon
   }
   
-  function deleteIcon () {
+  function deleteIcon (project) {
     let icon = document.createElement('div')
     icon.classList.add('delete-icon');
     icon.addEventListener('click', () => {
       icon.parentElement.remove();
-      let me = findTodoObj(icon.parentElement);
-      let myIndex = todos.indexOf(me);
-      todos.splice(myIndex, 1);
-      });
+      let me = findTodoObj(icon.parentElement, project);
+      if (project){
+        let myIndex = project.todos.indexOf(me);
+        project.todos.splice(myIndex, 1);
+      } else {
+        let myIndex = todos.indexOf(me);
+        todos.splice(myIndex, 1)
+      };
+    });
     return icon
   }
   

@@ -1,6 +1,6 @@
 import {newTodo, todos, editTodo} from './todos.js'
 import {editToDOM} from './domindex.js'
-import {createProject} from './projects.js'
+import {createProject, projects} from './projects.js'
 import {newTabButton} from './domelements.js'
 
 function nameInput (value) {
@@ -22,10 +22,10 @@ function nameInput (value) {
     return input
   }
 
-  function submitTodoButton (todo) {
+  function submitTodoButton (element, project) {
     let btn = document.createElement('button');
     btn.textContent = "submit";
-    btn.addEventListener('click', () => submitTodoForm(todo))
+    btn.addEventListener('click', () => submitTodoForm(element, project))
     return btn
   }
 
@@ -44,36 +44,38 @@ function nameInput (value) {
   // ----------------ABOVE: form elements ---------------- BELOW: form logic ----------------//
 
 
-  function editTodoForm(todo){
+  function editTodoForm(todo, project){
     const name = todo.childNodes[0].textContent
     const description = todo.childNodes[1].textContent
     while (todo.firstChild) {
         todo.removeChild(todo.lastChild);
     }
-    renderForm(todo, name, description);
+    renderForm(todo, name, description, project);
 };
 
-function createTodoForm (todo) {
-    todo.textContent = "";
-    renderForm(todo);
+function createTodoForm (element, project) {
+    element.textContent = "";
+    renderForm(element, null, null, project)
 };
 
-function renderForm (element, name, description) {
+function renderForm (element, name, description, project) {
     element.classList.add('being-edited');
     element.appendChild(nameInput(name));
     element.appendChild(descriptionInput(description));
-    element.appendChild(submitTodoButton(element));
+    element.appendChild(submitTodoButton(element, project));
 }
 
-function submitTodoForm(todo) {
-    const name = todo.childNodes[0].value
-    const description = todo.childNodes[1].value
-    if(todo.classList.contains('editable')){
-        editTodo(todo, name, description);
-        editToDOM(todo);
+function submitTodoForm(element, project) {
+    const name = element.childNodes[0].value
+    const description = element.childNodes[1].value
+    if(element.classList.contains('editable')){
+        editTodo(element, name, description, project);
+        editToDOM(element, project);
     } else{
-    newTodo(name, description);
-    todo.remove()
+        if (project){
+            newTodo(name, description, project);
+        }  else {newTodo(name, description)};   
+        element.remove();
     }
 };
 

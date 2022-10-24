@@ -1,12 +1,12 @@
-import {todos, instantiateTodo} from './todos.js'
+import {instantiateTodo} from './todos.js'
 import {newTab} from './domelements.js'
 import {randomKey} from './keygenerator.js'
 
-let projects = []
+let projects = [];
 
-function instantiateProject(projectName) {
+function instantiateProject(name) {
     return {
-        projectName,
+        name,
         key: randomKey(),
         todos: []
     }
@@ -14,16 +14,16 @@ function instantiateProject(projectName) {
 
 function createProject(name){
     let project = instantiateProject(name);
+    projects.push(project);
     newTab(name, project.key); 
 }
 
 function findProjectObj(dataKey){
     let me = projects.find(element => element.key == dataKey);
-    console.log(me)
     return me
 }
 
+let misc = instantiateProject('misc')
 
 
-
-export {projects, instantiateProject, createProject, findProjectObj}
+export {projects, instantiateProject, createProject, findProjectObj, misc}

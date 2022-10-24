@@ -1,41 +1,70 @@
 import {newToDOM, editToDOM} from "./domindex.js";
 import {randomKey} from './keygenerator.js'
+import {projects, misc} from "./projects.js";
 
-function instantiateTodo(name, desc) {
+function instantiateTodo(name, desc, proj) {
+    if(proj){var project = proj};
+    
     return {
         name,
         desc,
         key: randomKey(),
+        project,
         giveDesc() {
         return desc
         }
     }
 }
 
-const todos = [];
+const renderAllTodos = () => {
+    clearTodos()
+    let array = [];
+    console.log(projects);
+    projects.forEach(project => array.concat(project.todos));
+    array.forEach(element => {newToDOM(element)})
+    console.log(array)
+}
 
-function newTodo(name, desc) {
-    let todo = instantiateTodo(name, desc);
-    todos.push(todo);
-    newToDOM(todo);
+
+
+function newTodo(name, desc, project) {
+    let todo = instantiateTodo(name, desc, project);
+    if(project){project.todos.push(todo)}
+    if(!project){var project = misc}
+    // else {misc.todos.push(todo);}
+    newToDOM(todo, project);
 };
 
 
-function findTodoObj(todo){
-    let key = todo.getAttribute('data-key');
-    let me = todos.find(element => element.key == key);
+function findTodoObj(element, project){
+    let key = element.getAttribute('data-key');
+    if (project) { var me = project.todos.find(element => element.key == key)
+    } else {var me = misc.todos.find(element => element.key == key)};
     return me
 }
 
-function editTodo(todo, name, description){
-    let me = findTodoObj(todo)
+function editTodo(element, name, description, project){
+    let me = findTodoObj(element, project)
     me.name = name;
     me.desc = description; 
-    console.log(todos);
+}
+
+function clearTodos() {
+    let todosContainer = document.querySelector('.todos-container')
+    while (todosContainer.firstChild) {
+        todosContainer.removeChild(todosContainer.lastChild);
+      }
+
 }
 
 function renderTodos(project){
-    project.forEach(element => {newToDOM(element)});
+    clearTodos()
+    if(project){
+    project.todos.forEach(element => {newToDOM(element, project)});
+    } else{
+    let array = allTodos()
+    array.forEach(element => {newToDOM(element)});
+    } 
 }
 
-export {todos, instantiateTodo, newTodo, editTodo, findTodoObj, renderTodos}
+export { instantiateTodo, newTodo, editTodo, findTodoObj, renderTodos, renderAllTodos}
