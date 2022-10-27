@@ -26,7 +26,7 @@ function makeHeader(){
     today.textContent = 'All';
     today.addEventListener('click', () => {
     renderAllTodos();
-    newTodoButton();
+    newTodoButton(projects[0]);
     });
     tabsBar.appendChild(today);
   }
@@ -67,7 +67,7 @@ function makeHeader(){
     let createButton = document.createElement('div')
     createButton.classList.add('create-button');
     
-    if(project)
+    if(project !== projects[0])
       {createButton.textContent = `+ To-Do for ${project.name}`}
       else {createButton.textContent = '+ To-Do';}
 
@@ -117,13 +117,8 @@ function makeHeader(){
     icon.addEventListener('click', () => {
       icon.parentElement.remove();
       let me = findTodoObj(icon.parentElement, project);
-      if (project){
         let myIndex = project.todos.indexOf(me);
         project.todos.splice(myIndex, 1);
-      } else {
-        let myIndex = todos.indexOf(me);
-        todos.splice(myIndex, 1)
-      };
     });
     return icon
   }

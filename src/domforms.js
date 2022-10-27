@@ -72,9 +72,7 @@ function submitTodoForm(element, project) {
         editTodo(element, name, description, project);
         editToDOM(element, project);
     } else{
-        if (project){
-            newTodo(name, description, project);
-        }  else {newTodo(name, description)};   
+        newTodo(name, description, project);
         element.remove();
     }
 };

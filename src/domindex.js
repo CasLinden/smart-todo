@@ -1,5 +1,6 @@
 import {makeHeader, makeTabsBar, mainTab, newTabButton, makeTodosContainer, newTodoButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, nameInput, descriptionInput} from './domelements.js'
 import {findTodoObj} from './todos.js'
+import {projects} from './projects.js'
 
 makeHeader()
 makeTabsBar()
@@ -8,7 +9,7 @@ mainTab()
 newTabButton()
 
 makeTodosContainer() 
-newTodoButton()
+newTodoButton(projects[0])
 
 
 function newToDOM (todo, project){

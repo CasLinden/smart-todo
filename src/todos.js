@@ -1,6 +1,6 @@
 import {newToDOM, editToDOM} from "./domindex.js";
 import {randomKey} from './keygenerator.js'
-import {projects, misc} from "./projects.js";
+import {projects} from "./projects.js";
 
 function instantiateTodo(name, desc, proj) {
     if(proj){var project = proj};
@@ -16,30 +16,16 @@ function instantiateTodo(name, desc, proj) {
     }
 }
 
-const renderAllTodos = () => {
-    clearTodos()
-    let array = [];
-    console.log(projects);
-    projects.forEach(project => array.concat(project.todos));
-    array.forEach(element => {newToDOM(element)})
-    console.log(array)
-}
-
-
-
 function newTodo(name, desc, project) {
     let todo = instantiateTodo(name, desc, project);
-    if(project){project.todos.push(todo)}
-    if(!project){var project = misc}
-    // else {misc.todos.push(todo);}
+    project.todos.push(todo);
     newToDOM(todo, project);
 };
 
 
 function findTodoObj(element, project){
     let key = element.getAttribute('data-key');
-    if (project) { var me = project.todos.find(element => element.key == key)
-    } else {var me = misc.todos.find(element => element.key == key)};
+    var me = project.todos.find(element => element.key == key)
     return me
 }
 
@@ -54,17 +40,16 @@ function clearTodos() {
     while (todosContainer.firstChild) {
         todosContainer.removeChild(todosContainer.lastChild);
       }
+}
 
+const renderAllTodos = () => {
+    clearTodos()
+    projects.forEach(project => project.todos.forEach(todo => {newToDOM(todo, project)}));
 }
 
 function renderTodos(project){
     clearTodos()
-    if(project){
-    project.todos.forEach(element => {newToDOM(element, project)});
-    } else{
-    let array = allTodos()
-    array.forEach(element => {newToDOM(element)});
-    } 
+    project.todos.forEach(todo => {newToDOM(todo, project)});
 }
 
 export { instantiateTodo, newTodo, editTodo, findTodoObj, renderTodos, renderAllTodos}

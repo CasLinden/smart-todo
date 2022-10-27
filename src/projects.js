@@ -23,7 +23,7 @@ function findProjectObj(dataKey){
     return me
 }
 
-let misc = instantiateProject('misc')
+projects.push(instantiateProject('misc'));
 
 
-export {projects, instantiateProject, createProject, findProjectObj, misc}
+export {projects, instantiateProject, createProject, findProjectObj}
