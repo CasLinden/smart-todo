@@ -8,15 +8,37 @@ function makeHeader(){
     let title = document.createElement('h1');
     title.textContent = 'Smart To-Do';
     header.appendChild(title);
+    let projectsWrapper = document.createElement('div');
+    projectsWrapper.classList.add('projects-wrapper');
+    header.appendChild(projectsWrapper);
     document.body.appendChild(header);
+    
   }
 
   function makeTabsBar(){
-    const header = document.querySelector('.header');
+    const wrapper = document.querySelector('.projects-wrapper');
     const tabsBar = document.createElement('div');
     tabsBar.classList.add('tabs-bar');
-    header.appendChild(tabsBar);
+    wrapper.appendChild(tabsBar);
+  }
+
+  function makeTabsHeader(){
+    const wrapper = document.querySelector('.projects-wrapper');
+    const container = document.createElement('div');
+    container.classList.add('tabs-header');
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Projects';
+    const iconContainer = document.createElement('div');
+    iconContainer.classList.add('edit-projects-icon');
+    container.appendChild(h2);
+    container.appendChild(iconContainer);
     
+    container.addEventListener('click', () => {
+      const wrapper = document.querySelector('.projects-wrapper');
+      wrapper.classList.add('being-edited')
+      })
+    wrapper.appendChild(container);
+
   }
 
   function mainTab() {
@@ -36,6 +58,7 @@ function makeHeader(){
     const btn = document.createElement('div');
     btn.classList.add('create-project-button');
     btn.textContent = '+ project'
+    btn.style.width = '80px'
     btn.addEventListener('click', () => {
      editProjectName(btn);
     }, {once : true});
@@ -53,8 +76,19 @@ function makeHeader(){
       renderTodos(objectus)
       newTodoButton(objectus)
       });
+    let color = tabColor() // maybe I should do this in projects.js?
+    projectTab.style.backgroundColor = color  
+    let obj = findProjectObj(key);
+    obj.color = color;
     tabsBar.appendChild(projectTab)
+    projectTab.click()
   }
+
+  function tabColor () {
+    let colors = ['#97C1A9', '#F6EAC2', '#FFB8B1', '#FFDAC1','#9AB7D3' ,'#A3E1DC', '#DFCCF1'];
+    return colors[`${projects.length-2}`]
+  }
+
   
   function makeTodosContainer(){
     let container = document.createElement('div');
@@ -79,6 +113,8 @@ function makeHeader(){
     container.insertBefore(createButton, container.firstChild);
   }
 
+
+
 // ----------------ABOVE: site elements ---------------- BELOW: todos elements ----------------//
 
   function todoContainer () {
@@ -90,15 +126,22 @@ function makeHeader(){
   function todoTitle (todo) {
     let title = document.createElement('span');
     title.classList.add('todo-title');
-    if(todo){title.textContent = todo.name;}
+    if(todo){title.textContent = todo.name}
     return title
   }
   
   function todoDescription (todo) {
     let description = document.createElement('span');
     description.classList.add('todo-description');
-    if(todo){description.textContent = todo.desc;}
+    if(todo){description.textContent = todo.desc}
     return description
+  }
+
+  function dueDate(todo){
+    let date = document.createElement('div');
+    date.classList.add('due-date');
+    if(todo) {date.textContent = todo.due}
+    return date
   }
 
   function editIcon(project) {
@@ -123,4 +166,4 @@ function makeHeader(){
     return icon
   }
   
-  export{makeHeader, makeTabsBar, mainTab, newTabButton, newTab, makeTodosContainer, newTodoButton,  deleteIcon, editIcon, todoContainer, todoTitle, todoDescription}
+  export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, makeTodosContainer, newTodoButton,  deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, dueDate}

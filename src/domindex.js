@@ -1,12 +1,15 @@
-import {makeHeader, makeTabsBar, mainTab, newTabButton, makeTodosContainer, newTodoButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, nameInput, descriptionInput} from './domelements.js'
+import {makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, makeTodosContainer, newTodoButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, dueDate, nameInput, descriptionInput} from './domelements.js'
 import {findTodoObj} from './todos.js'
 import {projects} from './projects.js'
 
 makeHeader()
+makeTabsHeader()
 makeTabsBar()
+
 
 mainTab()
 newTabButton()
+
 
 makeTodosContainer() 
 newTodoButton(projects[0])
@@ -33,6 +36,8 @@ function toDOM(element, todoObj, project){
     element.setAttribute('data-key', `${todoObj.key}`)
     element.appendChild(todoTitle(todoObj));
     element.appendChild(todoDescription(todoObj));
+    element.appendChild(dueDate(todoObj));
+    element.style.border = ` 4px solid ${project.color}`
     if (project){
         element.appendChild(editIcon(project));
         element.appendChild(deleteIcon(project)); 
@@ -44,12 +49,3 @@ function toDOM(element, todoObj, project){
 }
 
 export {toDOM, editToDOM, newToDOM}
-
-
-
-
-
-
-
-
-

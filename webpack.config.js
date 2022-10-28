@@ -13,7 +13,7 @@ module.exports = {
   devtool: 'inline-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Development',
+      title: 'Smart TO-DO',
     }),
   ],
   output: {
@@ -26,6 +26,7 @@ module.exports = {
   },
   module: {
     rules: [
+      
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],

@@ -8,14 +8,15 @@ function instantiateProject(name) {
     return {
         name,
         key: randomKey(),
-        todos: []
+        todos: [],
+        color: '#FFFFFF'
     }
 }
 
 function createProject(name){
     let project = instantiateProject(name);
     projects.push(project);
-    newTab(name, project.key); 
+    newTab(name, project.key);
 }
 
 function findProjectObj(dataKey){

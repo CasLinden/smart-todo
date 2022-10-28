@@ -2,13 +2,14 @@ import {newToDOM, editToDOM} from "./domindex.js";
 import {randomKey} from './keygenerator.js'
 import {projects} from "./projects.js";
 
-function instantiateTodo(name, desc, proj) {
+function instantiateTodo(name, desc, due, proj) {
     if(proj){var project = proj};
     
     return {
         name,
         desc,
         key: randomKey(),
+        due,
         project,
         giveDesc() {
         return desc
@@ -16,8 +17,8 @@ function instantiateTodo(name, desc, proj) {
     }
 }
 
-function newTodo(name, desc, project) {
-    let todo = instantiateTodo(name, desc, project);
+function newTodo(name, desc, due, project) {
+    let todo = instantiateTodo(name, desc, due, project);
     project.todos.push(todo);
     newToDOM(todo, project);
 };
@@ -29,10 +30,12 @@ function findTodoObj(element, project){
     return me
 }
 
-function editTodo(element, name, description, project){
+function editTodo(element, name, description, due, project){
     let me = findTodoObj(element, project)
     me.name = name;
     me.desc = description; 
+    me.due = due;
+    console.log(me.due)
 }
 
 function clearTodos() {

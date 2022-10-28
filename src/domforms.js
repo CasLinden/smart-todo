@@ -1,7 +1,9 @@
-import {newTodo, todos, editTodo} from './todos.js'
+import {newTodo, findTodoObj, editTodo} from './todos.js'
 import {editToDOM} from './domindex.js'
 import {createProject, projects} from './projects.js'
 import {newTabButton} from './domelements.js'
+import {format} from 'date-fns'
+
 
 function nameInput (value) {
     let input = document.createElement('input');
@@ -22,6 +24,18 @@ function nameInput (value) {
     return input
   }
 
+  function dueDateInput (date){
+    let input = document.createElement('input');
+    input.setAttribute('id', 'due-date-input');
+    input.setAttribute('type', 'date');
+    if(date){input.setAttribute('value', date);
+    } else{
+        let now = format(new Date(), 'yyyy-MM-dd');
+        input.setAttribute('value', now);
+     }
+     return input
+  }
+
   function submitTodoButton (element, project) {
     let btn = document.createElement('button');
     btn.textContent = "submit";
@@ -33,12 +47,16 @@ function nameInput (value) {
     let btn = document.createElement('button');
     btn.textContent = "submit";
     btn.addEventListener('click', () => {
-        submitProjectForm();
-        btn.parentElement.remove()
-        newTabButton()
+        if(document.querySelector('.project-name-input').value !== ""){
+            submitProjectForm();
+            btn.parentElement.remove()
+            newTabButton()
+            } else {document.querySelector('.project-name-input').placeholder = 'NAME NEEDED!'}
         } );
     return btn
   }
+
+
 
 
   // ----------------ABOVE: form elements ---------------- BELOW: form logic ----------------//
@@ -47,32 +65,35 @@ function nameInput (value) {
   function editTodoForm(todo, project){
     const name = todo.childNodes[0].textContent
     const description = todo.childNodes[1].textContent
+    let due = findTodoObj(todo, project).due
     while (todo.firstChild) {
         todo.removeChild(todo.lastChild);
     }
-    renderForm(todo, name, description, project);
+    renderForm(todo, name, description, due, project);
 };
 
 function createTodoForm (element, project) {
     element.textContent = "";
-    renderForm(element, null, null, project)
+    renderForm(element, null, null, null, project)
 };
 
-function renderForm (element, name, description, project) {
+function renderForm (element, name, description, due, project) {
     element.classList.add('being-edited');
     element.appendChild(nameInput(name));
     element.appendChild(descriptionInput(description));
+    element.appendChild(dueDateInput(due));
     element.appendChild(submitTodoButton(element, project));
 }
 
 function submitTodoForm(element, project) {
     const name = element.childNodes[0].value
     const description = element.childNodes[1].value
+    let due = element.childNodes[2].value
     if(element.classList.contains('editable')){
-        editTodo(element, name, description, project);
+        editTodo(element, name, description, due, project);
         editToDOM(element, project);
     } else{
-        newTodo(name, description, project);
+        newTodo(name, description, due, project);
         element.remove();
     }
 };
