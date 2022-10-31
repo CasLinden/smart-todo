@@ -38,14 +38,16 @@ function nameInput (value) {
 
   function submitTodoButton (element, project) {
     let btn = document.createElement('button');
-    btn.textContent = "submit";
+    btn.textContent = "OK";
+    btn.classList.add('submit-button')
     btn.addEventListener('click', () => submitTodoForm(element, project))
     return btn
   }
 
   function submitProjectButton(){
     let btn = document.createElement('button');
-    btn.textContent = "submit";
+    btn.textContent = "OK";
+    btn.classList.add('submit-button')
     btn.addEventListener('click', () => {
         if(document.querySelector('.project-name-input').value !== ""){
             submitProjectForm();
@@ -56,8 +58,16 @@ function nameInput (value) {
     return btn
   }
 
-
-
+  function cancelButton (){
+    let btn = document.createElement('button');
+    btn.textContent = "X";
+    btn.classList.add('cancel-button')
+    btn.addEventListener('click', () => {
+    if(btn.parentElement.getAttribute('class') == "create-project-form"){ newTabButton()}
+    btn.parentElement.remove()
+    });
+    return btn
+  }
 
   // ----------------ABOVE: form elements ---------------- BELOW: form logic ----------------//
 
@@ -83,6 +93,11 @@ function renderForm (element, name, description, due, project) {
     element.appendChild(descriptionInput(description));
     element.appendChild(dueDateInput(due));
     element.appendChild(submitTodoButton(element, project));
+    element.appendChild(cancelButton());
+    document.getElementById('name-input').focus();
+    element.querySelectorAll('input').forEach(element => {
+        submitWithEnter(element)
+    });;
 }
 
 function submitTodoForm(element, project) {
@@ -107,11 +122,23 @@ function editProjectName(element){
     input.classList.add('project-name-input')
     element.appendChild(input)
     element.appendChild(submitProjectButton())
+    element.appendChild(cancelButton())
+    document.getElementById('name-input').focus()
+    submitWithEnter(element);
 }
 
 function submitProjectForm (){
     let name = document.querySelector('.project-name-input').value;
     createProject(name);
 };
+
+function submitWithEnter(element){
+    element.addEventListener("keypress", (event) => {
+    if(event.key === "Enter"){
+        element.parentElement.querySelector('.submit-button').click();
+        }
+    });
+}
+
 
 export {nameInput, descriptionInput, submitTodoButton, renderForm, editTodoForm, createTodoForm, submitTodoForm, editProjectName}

@@ -5,4 +5,3 @@ header.addEventListener('click', () => {
     tabsBar.classList.add('being-edited')
 })
 }
-
