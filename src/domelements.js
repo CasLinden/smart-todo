@@ -1,6 +1,7 @@
 import {createTodoForm, editTodoForm, editProjectName} from './domforms.js'
 import {findTodoObj, renderTodos, renderAllTodos} from './todos.js'
 import {findProjectObj, projects} from './projects.js'
+import {openProjectOptions} from './projectsoptions'
 
 function makeHeader(){
     let header = document.createElement('div');
@@ -30,13 +31,11 @@ function makeHeader(){
     h2.textContent = 'Projects';
     const iconContainer = document.createElement('div');
     iconContainer.classList.add('edit-projects-icon');
+    iconContainer.addEventListener('click', () => {
+      openProjectOptions();
+      }, {once : true});
     container.appendChild(h2);
     container.appendChild(iconContainer);
-    
-    container.addEventListener('click', () => {
-      const wrapper = document.querySelector('.projects-wrapper');
-      wrapper.classList.add('being-edited')
-      })
     wrapper.appendChild(container);
 
   }
@@ -48,7 +47,7 @@ function makeHeader(){
     today.textContent = 'All';
     today.addEventListener('click', () => {
     renderAllTodos();
-    newTodoButton(projects[0]);
+    
     });
     tabsBar.appendChild(today);
   }
@@ -69,25 +68,23 @@ function makeHeader(){
     let tabsBar = document.querySelector('.tabs-bar');
     let projectTab = document.createElement('div');
     projectTab.classList.add('tab');
-    projectTab.setAttribute('data-key', key)
-    projectTab.textContent = name
-    projectTab.addEventListener('click', () => {
+    projectTab.setAttribute('data-key', key);
+    let title = document.createElement('div');
+    title.classList.add('project-title')
+    title.textContent = name
+    title.addEventListener('click', () => {
       let objectus = findProjectObj(key)
       renderTodos(objectus)
-      newTodoButton(objectus)
       });
-    let color = tabColor() // maybe I should do this in projects.js?
-    projectTab.style.backgroundColor = color  
+    projectTab.appendChild(title)
+
     let obj = findProjectObj(key);
-    obj.color = color;
+    projectTab.style.backgroundColor = obj.color
     tabsBar.appendChild(projectTab)
     projectTab.click()
   }
 
-  function tabColor () {
-    let colors = ['#97C1A9', '#F6EAC2', '#FFB8B1', '#FFDAC1','#9AB7D3' ,'#A3E1DC', '#DFCCF1'];
-    return colors[`${projects.length-2}`]
-  }
+
 
   
   function makeTodosContainer(){

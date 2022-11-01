@@ -1,6 +1,7 @@
 import {newToDOM, editToDOM} from "./domindex.js";
 import {randomKey} from './keygenerator.js'
 import {projects} from "./projects.js";
+import {newTodoButton} from './domelements.js'
 
 function instantiateTodo(name, desc, due, proj) {
     if(proj){var project = proj};
@@ -48,11 +49,13 @@ function clearTodos() {
 const renderAllTodos = () => {
     clearTodos()
     projects.forEach(project => project.todos.forEach(todo => {newToDOM(todo, project)}));
+    newTodoButton(projects[0]);
 }
 
 function renderTodos(project){
     clearTodos()
     project.todos.forEach(todo => {newToDOM(todo, project)});
+    newTodoButton(project)
 }
 
-export { instantiateTodo, newTodo, editTodo, findTodoObj, renderTodos, renderAllTodos}
+export {instantiateTodo, newTodo, editTodo, findTodoObj, renderTodos, renderAllTodos}

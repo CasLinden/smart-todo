@@ -1,6 +1,6 @@
 import {newTodo, findTodoObj, editTodo} from './todos.js'
 import {editToDOM} from './domindex.js'
-import {createProject, projects} from './projects.js'
+import {createProject} from './projects.js'
 import {newTabButton} from './domelements.js'
 import {format} from 'date-fns'
 
@@ -69,6 +69,15 @@ function nameInput (value) {
     return btn
   }
 
+  function cancelEditButton(element, project){
+    let btn = document.createElement('button');
+    btn.textContent = 'cancel edit';
+    btn.addEventListener('click', () => {
+        editToDOM(element, project)
+    });
+    return btn
+  }
+
   // ----------------ABOVE: form elements ---------------- BELOW: form logic ----------------//
 
 
@@ -93,7 +102,8 @@ function renderForm (element, name, description, due, project) {
     element.appendChild(descriptionInput(description));
     element.appendChild(dueDateInput(due));
     element.appendChild(submitTodoButton(element, project));
-    element.appendChild(cancelButton());
+    if(name == null){element.appendChild(cancelButton())
+    }else(element.appendChild(cancelEditButton(element, project)));
     document.getElementById('name-input').focus();
     element.querySelectorAll('input').forEach(element => {
         submitWithEnter(element)
