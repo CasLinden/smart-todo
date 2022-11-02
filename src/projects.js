@@ -39,7 +39,7 @@ function findProjectObj(dataKey){
     return me
 }
  
-projects.push(instantiateProject('misc'));
+projects.push(instantiateProject('All'));
 
 
 export {projects, instantiateProject, createProject, findProjectObj}

@@ -1,8 +1,9 @@
 import {newTodo, findTodoObj, editTodo} from './todos.js'
 import {editToDOM} from './domindex.js'
-import {createProject} from './projects.js'
-import {newTabButton} from './domelements.js'
+import {createProject, findProjectObj} from './projects.js'
+import {newTabButton, tabTitle} from './domelements.js'
 import {format} from 'date-fns'
+import {addIcons} from './projectsoptions.js'
 
 
 function nameInput (value) {
@@ -58,12 +59,32 @@ function nameInput (value) {
     return btn
   }
 
+  function projectEditButton () {
+    let btn = document.createElement('button');
+    btn.textContent = "OK";
+    btn.classList.add('submit-button')
+        btn.addEventListener('click', () => {
+            let element = btn.parentElement
+            let obj = findProjectObj(element.getAttribute('data-key'))
+            obj.name = element.firstChild.value;
+            while (element.firstChild) {
+                element.removeChild(element.lastChild);
+            }
+            let title = element.appendChild(tabTitle(obj.name, obj.key));
+            if(document.querySelector('.projects-wrapper').classList.contains('being-edited')){
+                addIcons(element)
+            }
+            title.click()
+        })
+    return btn
+  }
+
   function cancelButton (){
     let btn = document.createElement('button');
     btn.textContent = "X";
     btn.classList.add('cancel-button')
     btn.addEventListener('click', () => {
-    if(btn.parentElement.getAttribute('class') == "create-project-form"){ newTabButton()}
+    if(btn.parentElement.getAttribute('class') == "create-project-form"){newTabButton()}
     btn.parentElement.remove()
     });
     return btn
@@ -123,7 +144,7 @@ function submitTodoForm(element, project) {
     }
 };
 
-function editProjectName(element){
+function newProjectName(element){
     element.firstChild.remove();
     element.classList.remove('create-project-button');
     element.classList.add('create-project-form');
@@ -135,6 +156,16 @@ function editProjectName(element){
     element.appendChild(cancelButton())
     document.getElementById('name-input').focus()
     submitWithEnter(element);
+}
+
+function editProjectName (element, obj){
+    while (element.firstChild) {
+        element.removeChild(element.lastChild);
+    }
+    let nameField = element.appendChild(nameInput(obj.name))
+    element.appendChild(projectEditButton())
+    submitWithEnter(nameField)
+    
 }
 
 function submitProjectForm (){
@@ -151,4 +182,4 @@ function submitWithEnter(element){
 }
 
 
-export {nameInput, descriptionInput, submitTodoButton, renderForm, editTodoForm, createTodoForm, submitTodoForm, editProjectName}
+export {nameInput, descriptionInput, submitTodoButton, renderForm, editTodoForm, createTodoForm, submitTodoForm, editProjectName, newProjectName, submitWithEnter}

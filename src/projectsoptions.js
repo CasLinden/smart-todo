@@ -1,25 +1,39 @@
 import {findProjectObj, projects} from './projects.js'
 import {renderAllTodos} from './todos.js'
 import {newTodoButton} from './domelements.js'
+import {editProjectName} from './domforms.js'
 
 function openProjectOptions (){
-let tabs = document.querySelectorAll('.tab');
-tabs.forEach(element => {addIcons(element)});
-let editProjectsIcon = document.querySelector('.edit-projects-icon');
-editProjectsIcon.addEventListener('click', () => {
-    closeProjectOptions();
-    }, {once : true});
+    let tabs = document.querySelectorAll('.tab');
+    tabs.forEach(element => {addIcons(element)});
+    let editProjectsIcon = document.querySelector('.edit-projects-icon');
+    editProjectsIcon.addEventListener('click', closeProjectOptions, {once: true});
+    clickOutside()
+    document.querySelector('.projects-wrapper').classList.add('being-edited');
+};
+
+function clickOutside () {
+    document.addEventListener('click', closeThroughClick);
 }
 
-function closeProjectOptions() {
+function closeThroughClick (event) {
+    let wrapper = document.querySelector('.projects-wrapper');
+    const withinBoundaries = event.composedPath().includes(wrapper)
+        if (!withinBoundaries) {
+          closeProjectOptions()
+        } 
+}
+
+
+function closeProjectOptions() {    
     let editProjectsIcon = document.querySelector('.edit-projects-icon');
     let iconHolders = document.querySelectorAll('.icon-holder');
     iconHolders.forEach(element => {
         element.remove();
     });
-    editProjectsIcon.addEventListener('click', () => {
-        openProjectOptions();
-        }, {once : true});
+    editProjectsIcon.addEventListener('click', openProjectOptions, {once : true});
+    document.removeEventListener('click', closeThroughClick);
+    document.querySelector('.projects-wrapper').classList.remove('being-edited');
 }
 
 function addIcons(projectTab){
@@ -36,6 +50,7 @@ function deleteIcon() {
     btn.addEventListener('click', () => {
         let element = btn.parentElement.parentElement;
         let obj = findProjectObj(element.getAttribute('data-key'));
+        console.log(obj)
         let myIndex = projects.indexOf(obj)
         projects.splice(myIndex, 1)
         console.log(projects)
@@ -51,9 +66,11 @@ function editIcon() {
     let btn = document.createElement('div');
     btn.classList.add('edit-icon')
     btn.addEventListener('click', () => {
-        console.log('trying to edit project')
-    });
+        let element = btn.parentElement.parentElement;
+        let obj = findProjectObj(element.getAttribute('data-key'));
+        editProjectName(element, obj)
+    })
     return btn
 };
 
-export {openProjectOptions}
+export {openProjectOptions, clickOutside, addIcons}

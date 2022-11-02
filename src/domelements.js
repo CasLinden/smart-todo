@@ -1,7 +1,7 @@
-import {createTodoForm, editTodoForm, editProjectName} from './domforms.js'
+import {createTodoForm, editTodoForm, newProjectName, editProjectName} from './domforms.js'
 import {findTodoObj, renderTodos, renderAllTodos} from './todos.js'
 import {findProjectObj, projects} from './projects.js'
-import {openProjectOptions} from './projectsoptions'
+import {openProjectOptions, addIcons} from './projectsoptions'
 
 function makeHeader(){
     let header = document.createElement('div');
@@ -29,27 +29,27 @@ function makeHeader(){
     container.classList.add('tabs-header');
     const h2 = document.createElement('h2');
     h2.textContent = 'Projects';
-    const iconContainer = document.createElement('div');
-    iconContainer.classList.add('edit-projects-icon');
-    iconContainer.addEventListener('click', () => {
-      openProjectOptions();
-      }, {once : true});
+    const editProjectsIcon = document.createElement('div');
+    editProjectsIcon.classList.add('edit-projects-icon');
+    editProjectsIcon.addEventListener('click', openProjectOptions, {once: true});
     container.appendChild(h2);
-    container.appendChild(iconContainer);
+    container.appendChild(editProjectsIcon);
     wrapper.appendChild(container);
-
   }
 
   function mainTab() {
     let tabsBar = document.querySelector('.tabs-bar');
-    const today = document.createElement('div');
-    today.classList.add('tab', 'maintab');
-    today.textContent = 'All';
-    today.addEventListener('click', () => {
+    const main = document.createElement('div');
+    main.classList.add('tab', 'maintab');
+    main.setAttribute('data-key', `${projects[0].key}`)
+    main.textContent = `${projects[0].name}`;
+    main.addEventListener('click', () => {
     renderAllTodos();
-    
+    removeHighlight();
+    highlightTab(main)
     });
-    tabsBar.appendChild(today);
+    highlightTab(main)
+    tabsBar.appendChild(main);
   }
 
   function newTabButton() {
@@ -59,7 +59,7 @@ function makeHeader(){
     btn.textContent = '+ project'
     btn.style.width = '80px'
     btn.addEventListener('click', () => {
-     editProjectName(btn);
+     newProjectName(btn);
     }, {once : true});
     tabsBar.appendChild(btn)
   }
@@ -69,19 +69,39 @@ function makeHeader(){
     let projectTab = document.createElement('div');
     projectTab.classList.add('tab');
     projectTab.setAttribute('data-key', key);
+
+    let title = projectTab.appendChild(tabTitle(name, key))
+
+    let obj = findProjectObj(key);
+    projectTab.style.backgroundColor = obj.color
+    tabsBar.appendChild(projectTab)
+    if(document.querySelector('.projects-wrapper').classList.contains('being-edited')){
+      addIcons(projectTab)
+    }
+    title.click()
+  }
+
+  function tabTitle (name, key){
     let title = document.createElement('div');
     title.classList.add('project-title')
     title.textContent = name
     title.addEventListener('click', () => {
       let objectus = findProjectObj(key)
       renderTodos(objectus)
+      removeHighlight()
+      highlightTab(title.parentElement)
       });
-    projectTab.appendChild(title)
+    return title
+  }
 
-    let obj = findProjectObj(key);
-    projectTab.style.backgroundColor = obj.color
-    tabsBar.appendChild(projectTab)
-    projectTab.click()
+  function highlightTab (tab){
+    tab.classList.add('active-tab')
+  }
+
+  function removeHighlight () {
+    let tabs = document.querySelectorAll('.tab');
+    let highlighted = [...tabs].find((tab) => tab.classList.contains('active-tab'))
+    highlighted.classList.remove('active-tab')
   }
 
 
@@ -163,4 +183,4 @@ function makeHeader(){
     return icon
   }
   
-  export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, makeTodosContainer, newTodoButton,  deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, dueDate}
+  export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, tabTitle, makeTodosContainer, newTodoButton,  deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, dueDate}
