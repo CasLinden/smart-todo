@@ -2,12 +2,13 @@ import {createTodoForm, editTodoForm, newProjectName, editProjectName} from './d
 import {findTodoObj, renderTodos, renderAllTodos} from './todos.js'
 import {findProjectObj, projects} from './projects.js'
 import {openProjectOptions, addIcons} from './projectsoptions'
+import {addDays, eachMonthOfInterval, eachDayOfInterval, intervalToDuration, eachHourOfInterval, eachMinuteOfInterval, parseISO} from 'date-fns'
 
 function makeHeader(){
     let header = document.createElement('div');
     header.classList.add('header');
     let title = document.createElement('h1');
-    title.textContent = 'Smart To-Do';
+    title.textContent = 'Smart To Do';
     header.appendChild(title);
     let projectsWrapper = document.createElement('div');
     projectsWrapper.classList.add('projects-wrapper');
@@ -104,9 +105,6 @@ function makeHeader(){
     highlighted.classList.remove('active-tab')
   }
 
-
-
-  
   function makeTodosContainer(){
     let container = document.createElement('div');
     container.classList.add('todos-container');
@@ -155,10 +153,43 @@ function makeHeader(){
   }
 
   function dueDate(todo){
-    let date = document.createElement('div');
-    date.classList.add('due-date');
-    if(todo) {date.textContent = todo.due}
-    return date
+    console.log(todo.due)
+    let dura = document.createElement('div');
+    dura.classList.add('due-duration');
+    if(todo.due != "") {dura.textContent = formatTodoDate(todo)}
+    return dura
+    
+    function formatTodoDate(todo){
+      const now = new Date();
+      let duration = intervalToDuration({
+        start: now,
+        end: parseISO(`${todo.due}`)
+      });
+      let dateString = ""
+      
+      if(duration.years !== 0){
+        dateString = dateString.concat(`${duration.years} year`)
+      }
+      if(duration.months !== 0 && duration.years === 0){
+        dateString = dateString.concat(`${duration.months} month`)
+      }  
+      if(duration.days !== 0 && duration.years === 0 && duration.months === 0){
+        dateString = dateString.concat(`${duration.days} day`)
+      }
+      if(duration.hours !== 0 && duration.years === 0 && duration.months === 0 && duration.days === 0){
+        dateString = dateString.concat(`${duration.hours} hour`)
+      }
+
+        function pluralize (){
+        if(parseInt(dateString) > 1){
+          dateString = dateString.concat('s')
+          }
+        }
+
+      pluralize(dateString)
+
+      return dateString
+    }
   }
 
   function editIcon(project) {

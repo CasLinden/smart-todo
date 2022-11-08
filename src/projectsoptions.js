@@ -9,7 +9,7 @@ function openProjectOptions (){
     let editProjectsIcon = document.querySelector('.edit-projects-icon');
     editProjectsIcon.addEventListener('click', closeProjectOptions, {once: true});
     clickOutside()
-    document.querySelector('.projects-wrapper').classList.add('being-edited');
+    document.querySelector('.projects-wrapper').classList.add('projects-being-edited');
 };
 
 function clickOutside () {
@@ -33,7 +33,7 @@ function closeProjectOptions() {
     });
     editProjectsIcon.addEventListener('click', openProjectOptions, {once : true});
     document.removeEventListener('click', closeThroughClick);
-    document.querySelector('.projects-wrapper').classList.remove('being-edited');
+    document.querySelector('.projects-wrapper').classList.remove('projects-being-edited');
 }
 
 function addIcons(projectTab){

@@ -4,6 +4,7 @@ import {createProject, findProjectObj} from './projects.js'
 import {newTabButton, tabTitle} from './domelements.js'
 import {format} from 'date-fns'
 import {addIcons} from './projectsoptions.js'
+import {addDays, intervalToDuration, parseISO} from 'date-fns'
 
 
 function nameInput (value) {
@@ -28,12 +29,9 @@ function nameInput (value) {
   function dueDateInput (date){
     let input = document.createElement('input');
     input.setAttribute('id', 'due-date-input');
-    input.setAttribute('type', 'date');
+    input.setAttribute('type', 'datetime-local');
     if(date){input.setAttribute('value', date);
-    } else{
-        let now = format(new Date(), 'yyyy-MM-dd');
-        input.setAttribute('value', now);
-     }
+    } 
      return input
   }
 
@@ -103,9 +101,10 @@ function nameInput (value) {
 
 
   function editTodoForm(todo, project){
-    const name = todo.childNodes[0].textContent
-    const description = todo.childNodes[1].textContent
-    let due = findTodoObj(todo, project).due
+    let obj = findTodoObj(todo, project);
+    const name = obj.name;
+    const description = obj.desc;
+    const due = obj.due
     while (todo.firstChild) {
         todo.removeChild(todo.lastChild);
     }
@@ -135,10 +134,12 @@ function submitTodoForm(element, project) {
     const name = element.childNodes[0].value
     const description = element.childNodes[1].value
     let due = element.childNodes[2].value
+    console.log(typeof due)
     if(element.classList.contains('editable')){
         editTodo(element, name, description, due, project);
         editToDOM(element, project);
     } else{
+
         newTodo(name, description, due, project);
         element.remove();
     }

@@ -63,6 +63,7 @@ margin: 0px;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    min-height: 50px;
 }
 
 .tab{
@@ -79,7 +80,7 @@ margin: 0px;
 }
 
 .active-tab{
-    transform: scale(1.2);
+    font-size: 26px;
 }
 
 .icon-holder{
@@ -153,10 +154,16 @@ margin: 0px;
 
 .being-edited{
     background: white;
-    width: 80%;
+    width: 100%;
     border: .1rem dotted black;
+    min-height: 5rem;
 }
 
+.projects-being-edited{
+    background: white;
+    width: 100%;
+    border: .1rem dotted black;
+}
 .cancel-button{
     color: red;
 }

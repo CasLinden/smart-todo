@@ -3,6 +3,7 @@ import {randomKey} from './keygenerator.js'
 import {projects} from "./projects.js";
 import {newTodoButton} from './domelements.js'
 
+
 function instantiateTodo(name, desc, due, proj) {
     if(proj){var project = proj};
     
@@ -20,6 +21,7 @@ function instantiateTodo(name, desc, due, proj) {
 
 function newTodo(name, desc, due, project) {
     let todo = instantiateTodo(name, desc, due, project);
+    console.log(todo)
     project.todos.push(todo);
     newToDOM(todo, project);
 };
