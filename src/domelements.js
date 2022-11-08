@@ -153,7 +153,6 @@ function makeHeader(){
   }
 
   function dueDate(todo){
-    console.log(todo.due)
     let dura = document.createElement('div');
     dura.classList.add('due-duration');
     if(todo.due != "") {dura.textContent = formatTodoDate(todo)}
@@ -202,16 +201,16 @@ function makeHeader(){
       return icon
   }
   
-  function deleteIcon (project) {
-    let icon = document.createElement('div')
-    icon.classList.add('delete-icon');
-    icon.addEventListener('click', () => {
-      icon.parentElement.remove();
-      let me = findTodoObj(icon.parentElement, project);
-        let myIndex = project.todos.indexOf(me);
-        project.todos.splice(myIndex, 1);
-    });
-    return icon
-  }
+  // function deleteIcon (project) {
+  //   let icon = document.createElement('div')
+  //   icon.classList.add('delete-icon');
+  //   icon.addEventListener('click', () => {
+  //     icon.parentElement.remove();
+  //     let me = findTodoObj(icon.parentElement, project);
+  //       let myIndex = project.todos.indexOf(me);
+  //       project.todos.splice(myIndex, 1);
+  //   });
+  //   return icon
+  // }
   
-  export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, tabTitle, makeTodosContainer, newTodoButton,  deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, dueDate}
+  export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, tabTitle, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate}

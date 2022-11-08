@@ -1,4 +1,4 @@
-import {makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, makeTodosContainer, newTodoButton, deleteIcon, editIcon, todoContainer, todoTitle, todoDescription, dueDate, nameInput, descriptionInput} from './domelements.js'
+import {makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate, nameInput, descriptionInput} from './domelements.js'
 import {findTodoObj} from './todos.js'
 import {projects} from './projects.js'
 
@@ -40,11 +40,11 @@ function toDOM(element, todoObj, project){
     element.style.border = ` 4px solid ${project.color}`
     if (project){
         element.appendChild(editIcon(project));
-        element.appendChild(deleteIcon(project)); 
+        // element.appendChild(deleteIcon(project)); 
        
     } else {
         element.appendChild(editIcon());
-        element.appendChild(deleteIcon());    
+        // element.appendChild(deleteIcon());    
     };  
 }
 

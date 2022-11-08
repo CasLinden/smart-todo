@@ -124,7 +124,7 @@ margin: 0px;
     width: 100%;
     height: 2rem;
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr 2rem 2rem;
+    grid-template-columns: 1fr 3fr 1fr 2rem;
     align-items: center;
 }
 
@@ -152,22 +152,75 @@ margin: 0px;
     width: 1rem;
 }
 
-.being-edited{
-    background: white;
-    width: 100%;
-    border: .1rem dotted black;
-    min-height: 5rem;
-}
-
 .projects-being-edited{
     background: white;
     width: 100%;
     border: .1rem dotted black;
 }
+/* ------------------------------------ BELOW: Form css ------------------------------------ */
+.being-edited{
+    background: white;
+    width: 100%;
+    border: .1rem dotted black;
+    min-height: 5rem;
+    display: grid;
+    grid-template-columns: auto 1fr 10rem ;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "title-label description-label deadline-label"
+    "title-input description-input deadline-input"
+    "padding description-input buttons";
+    gap: 0 .8rem;
+    padding: .5rem 1rem .15rem 1rem;
+
+}
+.label{
+    font-size: .9rem;
+    align-self: center;
+}
+.title-label{
+    grid-area: title-label;
+}
+
+.description-label{
+    grid-area: description-label;
+}
+
+.deadline-label{
+   grid-area: deadline-label; 
+}
+
+#title-input{
+grid-area: title-input;
+height: 1.75rem;
+font-size: 1rem ;
+}
+
+#description-input{
+    grid-area: description-input;
+    font-family: 'Ubuntu';
+}
+
+#deadline-input{
+    grid-area: deadline-input;
+    font-family: 'Ubuntu';
+}
+
+.buttons-container{
+    grid-area: buttons;
+}
+
 .cancel-button{
-    color: red;
+    background-color: #FF6961;
 }
 
 .submit-button{
-    color: green;
+    background-color: #77dd77;
+}
+
+button{
+    height: 100%;
+    border-radius: .2rem;
+    border: none;
+    margin: .1rem;
 }
