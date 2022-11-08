@@ -201,16 +201,4 @@ function makeHeader(){
       return icon
   }
   
-  // function deleteIcon (project) {
-  //   let icon = document.createElement('div')
-  //   icon.classList.add('delete-icon');
-  //   icon.addEventListener('click', () => {
-  //     icon.parentElement.remove();
-  //     let me = findTodoObj(icon.parentElement, project);
-  //       let myIndex = project.todos.indexOf(me);
-  //       project.todos.splice(myIndex, 1);
-  //   });
-  //   return icon
-  // }
-  
   export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, tabTitle, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate}

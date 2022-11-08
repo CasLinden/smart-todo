@@ -40,11 +40,9 @@ function toDOM(element, todoObj, project){
     element.style.border = ` 4px solid ${project.color}`
     if (project){
         element.appendChild(editIcon(project));
-        // element.appendChild(deleteIcon(project)); 
        
     } else {
-        element.appendChild(editIcon());
-        // element.appendChild(deleteIcon());    
+        element.appendChild(editIcon());  
     };  
 }
 

@@ -36,18 +36,20 @@ function titleInput (value) {
 
   function submitTodoButton (element, project) {
     let btn = document.createElement('button');
-    btn.textContent = "DONE";
+    btn.textContent = "ADD";
+    console.log(element)
     btn.classList.add('submit-button')
-    btn.appendChild(document.createElement('i'))
+    let icon = btn.appendChild(document.createElement('div'))
+    icon.classList.add('check-icon')
     btn.addEventListener('click', () => submitTodoForm(element, project))
     return btn
   }
 
   function submitProjectButton(){
     let btn = document.createElement('button');
-    btn.textContent = "DONE";
-    btn.classList.add('submit-button')
-    btn.appendChild(document.createElement('i'))
+    btn.classList.add('submit-button');
+    let icon = btn.appendChild(document.createElement('div'));
+    icon.classList.add('check-icon');
     btn.addEventListener('click', () => {
         if(document.querySelector('.project-name-input').value !== ""){
             submitProjectForm();
@@ -80,9 +82,10 @@ function titleInput (value) {
 
   function cancelButton (){
     let btn = document.createElement('button');
-    btn.textContent = "BIN";
+    btn.textContent = "REMOVE"
     btn.classList.add('cancel-button')
-    btn.appendChild(document.createElement('i'))
+    let icon = btn.appendChild(document.createElement('div'))
+    icon.classList.add('remove-icon')
     btn.addEventListener('click', () => {
     if(btn.parentElement.getAttribute('class') == "create-project-form"){
         newTabButton()
@@ -95,9 +98,21 @@ function titleInput (value) {
   function cancelEditButton(element, project){
     let btn = document.createElement('button');
     btn.textContent = 'UNDO';
-    btn.appendChild(document.createElement('i'))
+    let icon = btn.appendChild(document.createElement('div'));
+    icon.classList.add('undo-icon')
     btn.addEventListener('click', () => {
         editToDOM(element, project)
+    });
+    return btn
+  }
+
+  function cancelAddButton() {
+    let btn = document.createElement('button');
+    btn.textContent = 'UNDO';
+    let icon = btn.appendChild(document.createElement('div'));
+    icon.classList.add('undo-icon')
+    btn.addEventListener('click', () => {
+        btn.parentElement.parentElement.remove();
     });
     return btn
   }
@@ -124,11 +139,11 @@ function titleInput (value) {
   // ----------------ABOVE: form elements ---------------- BELOW: form logic ----------------//
 
 
-  function editTodoForm(todo, project){
+function editTodoForm(todo, project){
     let obj = findTodoObj(todo, project);
     const name = obj.name;
     const description = obj.desc;
-    const due = obj.due
+    const due = obj.due;
     while (todo.firstChild) {
         todo.removeChild(todo.lastChild);
     }
@@ -141,15 +156,17 @@ function createTodoForm (element, project) {
 };
 
 function renderForm (element, name, description, due, project) {
-    console.log(description)
     element.classList.add('being-edited');
     element.appendChild(titleInput(name));
     element.appendChild(descriptionInput(description));
     element.appendChild(dueDateInput(due));
     let btnContainer = element.appendChild(buttonsContainer())
     btnContainer.appendChild(submitTodoButton(element, project));
-    if(name !== null){btnContainer.appendChild(cancelEditButton(element, project))};
-    btnContainer.appendChild(cancelButton());
+    if(name){
+        btnContainer.appendChild(cancelEditButton(element, project))
+        btnContainer.appendChild(cancelButton())};
+    if(name == null) {
+        btnContainer.appendChild(cancelAddButton());}
     document.getElementById('title-input').focus();
     element.querySelectorAll('input, textarea').forEach(element => {
         submitWithEnter(element);
