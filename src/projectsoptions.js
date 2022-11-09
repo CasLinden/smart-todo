@@ -46,14 +46,12 @@ function addIcons(projectTab){
 
 function deleteIcon() {
     let btn = document.createElement('div');
-    btn.classList.add('delete-icon')
+    btn.classList.add('delete-icon', 'icon')
     btn.addEventListener('click', () => {
         let element = btn.parentElement.parentElement;
         let obj = findProjectObj(element.getAttribute('data-key'));
-        console.log(obj)
         let myIndex = projects.indexOf(obj)
         projects.splice(myIndex, 1)
-        console.log(projects)
         element.remove();
         renderAllTodos();
 

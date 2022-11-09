@@ -2,7 +2,7 @@ import {createTodoForm, editTodoForm, newProjectName, editProjectName} from './d
 import {findTodoObj, renderTodos, renderAllTodos} from './todos.js'
 import {findProjectObj, projects} from './projects.js'
 import {openProjectOptions, addIcons} from './projectsoptions'
-import {addDays, eachMonthOfInterval, eachDayOfInterval, intervalToDuration, eachHourOfInterval, eachMinuteOfInterval, parseISO} from 'date-fns'
+import {intervalToDuration, parseISO} from 'date-fns'
 
 function makeHeader(){
     let header = document.createElement('div');
@@ -65,7 +65,7 @@ function makeHeader(){
     tabsBar.appendChild(btn)
   }
 
-  function newTab(name, key){
+  function newTab(name, key, index){
     let tabsBar = document.querySelector('.tabs-bar');
     let projectTab = document.createElement('div');
     projectTab.classList.add('tab');
@@ -75,7 +75,10 @@ function makeHeader(){
 
     let obj = findProjectObj(key);
     projectTab.style.backgroundColor = obj.color
-    tabsBar.appendChild(projectTab)
+    if(index){
+      tabsBar.insertBefore(projectTab, tabsBar.childNodes[index])
+    } else {tabsBar.appendChild(projectTab)};
+    
     if(document.querySelector('.projects-wrapper').classList.contains('being-edited')){
       addIcons(projectTab)
     }
@@ -117,8 +120,8 @@ function makeHeader(){
     createButton.classList.add('create-button');
     
     if(project !== projects[0])
-      {createButton.textContent = `+ To-Do for ${project.name}`}
-      else {createButton.textContent = '+ To-Do';}
+      {createButton.textContent = `+ To Do for ${project.name}`}
+      else {createButton.textContent = '+ To Do';}
 
     createButton.addEventListener('click', () => {
       createTodoForm(createButton, project)

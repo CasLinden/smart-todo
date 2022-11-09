@@ -1,7 +1,7 @@
 import {newTodo, findTodoObj, editTodo} from './todos.js'
 import {editToDOM} from './domindex.js'
 import {createProject, findProjectObj} from './projects.js'
-import {newTabButton, tabTitle} from './domelements.js'
+import {newTab, newTabButton, tabTitle} from './domelements.js'
 import {addIcons} from './projectsoptions.js'
 
 
@@ -37,10 +37,9 @@ function titleInput (value) {
   function submitTodoButton (element, project) {
     let btn = document.createElement('button');
     btn.textContent = "ADD";
-    console.log(element)
     btn.classList.add('submit-button')
     let icon = btn.appendChild(document.createElement('div'))
-    icon.classList.add('check-icon')
+    icon.classList.add('check-icon', 'icon')
     btn.addEventListener('click', () => submitTodoForm(element, project))
     return btn
   }
@@ -49,7 +48,7 @@ function titleInput (value) {
     let btn = document.createElement('button');
     btn.classList.add('submit-button');
     let icon = btn.appendChild(document.createElement('div'));
-    icon.classList.add('check-icon');
+    icon.classList.add('check-icon', 'icon');
     btn.addEventListener('click', () => {
         if(document.querySelector('.project-name-input').value !== ""){
             submitProjectForm();
@@ -62,7 +61,8 @@ function titleInput (value) {
 
   function projectEditButton () {
     let btn = document.createElement('button');
-    btn.textContent = "OK";
+    let icon = btn.appendChild(document.createElement('div'));
+    icon.classList.add('check-icon', 'icon');
     btn.classList.add('submit-button')
         btn.addEventListener('click', () => {
             let element = btn.parentElement
@@ -72,7 +72,7 @@ function titleInput (value) {
                 element.removeChild(element.lastChild);
             }
             let title = element.appendChild(tabTitle(obj.name, obj.key));
-            if(document.querySelector('.projects-wrapper').classList.contains('being-edited')){
+            if(document.querySelector('.projects-wrapper').classList.contains('projects-being-edited')){
                 addIcons(element)
             }
             title.click()
@@ -85,7 +85,7 @@ function titleInput (value) {
     btn.textContent = "REMOVE"
     btn.classList.add('cancel-button')
     let icon = btn.appendChild(document.createElement('div'))
-    icon.classList.add('remove-icon')
+    icon.classList.add('remove-icon', 'icon')
     btn.addEventListener('click', () => {
     if(btn.parentElement.getAttribute('class') == "create-project-form"){
         newTabButton()
@@ -99,20 +99,41 @@ function titleInput (value) {
     let btn = document.createElement('button');
     btn.textContent = 'UNDO';
     let icon = btn.appendChild(document.createElement('div'));
-    icon.classList.add('undo-icon')
+    icon.classList.add('undo-icon', 'icon')
     btn.addEventListener('click', () => {
         editToDOM(element, project)
     });
     return btn
   }
 
-  function cancelAddButton() {
+  function undoProjectEditButton(element, obj){
     let btn = document.createElement('button');
-    btn.textContent = 'UNDO';
     let icon = btn.appendChild(document.createElement('div'));
-    icon.classList.add('undo-icon')
+    icon.classList.add('undo-icon', 'icon');
+    let index = Array.from(document.querySelector('.tabs-bar').childNodes).indexOf(element);
     btn.addEventListener('click', () => {
-        btn.parentElement.parentElement.remove();
+        btn.parentElement.remove();
+        newTab(obj.name, obj.key, index)
+        let tab = document.querySelector(`[data-key='${obj.key}']`)
+        tab.classList.add('active-tab');
+        if(document.querySelector('.projects-wrapper').classList.contains('projects-being-edited')){addIcons(tab)}
+        
+    })
+    return btn
+  }
+
+  function cancelAddButton(small) {
+    let btn = document.createElement('button');
+    if(small !== 'small'){btn.textContent = 'UNDO'}
+    else{btn.style.border = '.15rem solid white'}
+    let icon = btn.appendChild(document.createElement('div'));
+    icon.classList.add('undo-icon', 'icon')
+    btn.addEventListener('click', () => {
+        if(small !== 'small'){
+            btn.parentElement.parentElement.remove();
+        } else{
+            btn.parentElement.remove()
+            newTabButton();};      
     });
     return btn
   }
@@ -126,11 +147,11 @@ function titleInput (value) {
   function label (input) {
     let label = document.createElement('label');
     let idString = input.getAttribute('id');
+    label.setAttribute('for', idString)
     let titleString = idString.slice(0, idString.indexOf('-input'));
     label.classList.add(`${titleString}-label`, 'label')
-    // don't shuffle order
-    titleString = titleString.charAt(0).toUpperCase() + titleString.slice(1)+ ':';
-    label.textContent = titleString;
+    let capString = titleString.charAt(0).toUpperCase() + titleString.slice(1)+ ':';
+    label.textContent = capString;
     let container = input.parentNode;
     container.insertBefore(label, input);
 
@@ -197,7 +218,7 @@ function newProjectName(element){
     input.classList.add('project-name-input');
     element.appendChild(input);
     element.appendChild(submitProjectButton());
-    element.appendChild(cancelButton());
+    element.appendChild(cancelAddButton('small'));
     document.getElementById('title-input').focus();
     submitWithEnter(element);
 }
@@ -208,6 +229,7 @@ function editProjectName (element, obj){
     };
     let nameField = element.appendChild(titleInput(obj.name));
     element.appendChild(projectEditButton());
+    element.appendChild(undoProjectEditButton(element, obj));
     submitWithEnter(nameField);
 };
 
@@ -218,6 +240,7 @@ function submitProjectForm (){
 
 function submitWithEnter(element){
     element.addEventListener("keypress", (event) => {
+    tabsBar.appendChild(projectTab)
     if(event.key === "Enter"){
         element.parentElement.querySelector('.submit-button').click();
         }

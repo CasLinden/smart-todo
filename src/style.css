@@ -76,6 +76,7 @@ margin: 0px;
     border-right: solid .1rem black;
     width: auto;
     display: flex;
+    align-items: center;
     transition: all .1s;
 }
 
@@ -158,6 +159,7 @@ margin: 0px;
     border: .1rem dotted black;
 }
 /* ------------------------------------ BELOW: Form css ------------------------------------ */
+
 .being-edited{
     background: white;
     width: 100%;
@@ -234,31 +236,23 @@ button{
 }
 
 .check-icon{
-    height: 1rem;
-    width: 1rem;
-    background: url('./icons/check-svgrepo-com.svg');
-    background-size: cover;
+    background: url('./icons/check-svgrepo-com.svg');  
 }
 
-.remove-icon{
-    height: 1rem;
-    width: 1rem;
-    background: url('./icons/delete-svgrepo-com.svg');
-    background-size: cover;
+.remove-icon{ 
+    background: url('./icons/delete-svgrepo-com.svg'); 
 }
 
 .undo-icon{
-    height: 1rem;
-    width: 1rem;
     background: url('./icons/undo-svgrepo-com.svg');
-    background-size: cover;
 }
-
 .create-project-form > .cancel-button > .remove-icon{
     background: url('./icons/undo-svgrepo-com.svg');
-    background-size: cover;
 }
 
-/* .create-project-form > .cancel-button{
-    background-color: whitesmoke;
-} */
+.icon{
+    /* don't move me above the background urls */
+    height: 1rem;
+    width: 1rem;
+    background-size: cover;
+}
