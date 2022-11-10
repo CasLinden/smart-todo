@@ -142,14 +142,14 @@ function makeHeader(){
   }
   
   function todoTitle (todo) {
-    let title = document.createElement('span');
+    let title = document.createElement('div');
     title.classList.add('todo-title');
     if(todo){title.textContent = todo.name}
     return title
   }
   
   function todoDescription (todo) {
-    let description = document.createElement('span');
+    let description = document.createElement('div');
     description.classList.add('todo-description');
     if(todo){description.textContent = todo.desc}
     return description
@@ -203,5 +203,17 @@ function makeHeader(){
     });
       return icon
   }
+
+  function checkBox (object) {
+    let box = document.createElement('div');
+    box.classList.add('checkbox');
+    box.setAttribute('data-key', `${object.key}`)
+
+    box.addEventListener('click', () => {
+      console.log(`I'm done!`)
+    })
+    return box
+  }
+
   
-  export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, tabTitle, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate}
+  export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, tabTitle, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate, checkBox}

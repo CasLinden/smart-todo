@@ -1,4 +1,4 @@
-import {makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate, nameInput, descriptionInput} from './domelements.js'
+import {makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate, checkBox} from './domelements.js'
 import {findTodoObj} from './todos.js'
 import {projects} from './projects.js'
 
@@ -34,6 +34,7 @@ function editToDOM (element, project) {
 
 function toDOM(element, todoObj, project){
     element.setAttribute('data-key', `${todoObj.key}`)
+    element.appendChild(checkBox(todoObj));
     element.appendChild(todoTitle(todoObj));
     element.appendChild(todoDescription(todoObj));
     element.appendChild(dueDate(todoObj));

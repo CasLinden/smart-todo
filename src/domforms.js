@@ -199,7 +199,6 @@ function submitTodoForm(element, project) {
     const name = element.querySelector('#title-input').value
     const description = element.querySelector('#description-input').value
     let due = element.querySelector('#deadline-input').value
-    console.log(typeof due);
     if(element.classList.contains('editable')){
         editTodo(element, name, description, due, project);
         editToDOM(element, project);
@@ -239,9 +238,19 @@ function submitProjectForm (){
 };
 
 function submitWithEnter(element){
-    element.addEventListener("keypress", (event) => {
-    tabsBar.appendChild(projectTab)
-    if(event.key === "Enter"){
+    
+    var keysPressed = {};
+    element.addEventListener('keydown', e => {
+        keysPressed[e.key] = true;
+    })
+    element.addEventListener('keyup', e => {
+        delete keysPressed[e.key]
+    })
+
+    element.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && !keysPressed.Shift){
+        console.log(keysPressed)
+        console.log(!keysPressed.Shift)
         element.parentElement.querySelector('.submit-button').click();
         }
     });

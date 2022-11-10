@@ -21,7 +21,6 @@ function instantiateTodo(name, desc, due, proj) {
 
 function newTodo(name, desc, due, project) {
     let todo = instantiateTodo(name, desc, due, project);
-    console.log(todo)
     project.todos.push(todo);
     newToDOM(todo, project);
 };
