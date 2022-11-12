@@ -147,6 +147,7 @@ h2{
     height: 100vh;
     display: flex;
     flex-direction: column;
+    gap: .2rem;
     align-items: center;
     padding-top: .5rem;
 
@@ -285,3 +286,6 @@ button{
     width: 1rem;
     background-size: cover;
 }
+
+/* ------------------------------------ BELOW: Check css ------------------------------------ */
+

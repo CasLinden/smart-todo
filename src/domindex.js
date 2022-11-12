@@ -38,7 +38,7 @@ function toDOM(element, todoObj, project){
     element.appendChild(todoTitle(todoObj));
     element.appendChild(todoDescription(todoObj));
     element.appendChild(dueDate(todoObj));
-    element.style.border = ` 4px solid ${project.color}`
+    element.style.border = ` 2px solid ${project.color}`
     if (project){
         element.appendChild(editIcon(project));
        

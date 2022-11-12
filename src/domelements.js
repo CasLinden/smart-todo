@@ -208,6 +208,7 @@ function makeHeader(){
     let box = document.createElement('div');
     box.classList.add('checkbox');
     box.setAttribute('data-key', `${object.key}`)
+    box.style.borderColor = `${object.color}`
 
     box.addEventListener('click', () => {
       console.log(`I'm done!`)
