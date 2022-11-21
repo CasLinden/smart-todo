@@ -1,7 +1,7 @@
 import {newToDOM, editToDOM} from "./domindex.js";
 import {randomKey} from './keygenerator.js'
-import {projects} from "./projects.js";
-import {newTodoButton} from './domelements.js'
+import {projects, storeLocally} from "./projects.js";
+import {newTodoButton, highlightTab, removeHighlight} from './domelements.js'
 
 
 function instantiateTodo(name, desc, due, proj) {
@@ -13,9 +13,6 @@ function instantiateTodo(name, desc, due, proj) {
         key: randomKey(),
         due,
         project,
-        giveDesc() {
-        return desc
-        }
     }
 }
 
@@ -23,6 +20,7 @@ function newTodo(name, desc, due, project) {
     let todo = instantiateTodo(name, desc, due, project);
     project.todos.push(todo);
     newToDOM(todo, project);
+    storeLocally()
 };
 
 
@@ -37,7 +35,7 @@ function editTodo(element, name, description, due, project){
     me.name = name;
     me.desc = description; 
     me.due = due;
-    console.log(me.due)
+    storeLocally()
 }
 
 function clearTodos() {
@@ -51,6 +49,8 @@ const renderAllTodos = () => {
     clearTodos()
     projects.forEach(project => project.todos.forEach(todo => {newToDOM(todo, project)}));
     newTodoButton(projects[0]);
+    removeHighlight()
+    highlightTab(document.querySelector('.tabs-bar').childNodes[0]);
 }
 
 function renderTodos(project){

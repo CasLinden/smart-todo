@@ -1,6 +1,6 @@
 import {makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate, checkBox} from './domelements.js'
 import {findTodoObj} from './todos.js'
-import {projects} from './projects.js'
+import {projects, storeLocally} from './projects.js'
 
 makeHeader()
 makeTabsHeader()
@@ -44,7 +44,9 @@ function toDOM(element, todoObj, project){
        
     } else {
         element.appendChild(editIcon());  
-    };  
+    }; 
+
+    storeLocally()
 }
 
 export {toDOM, editToDOM, newToDOM}

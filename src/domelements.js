@@ -1,8 +1,9 @@
 import {createTodoForm, editTodoForm, newProjectName, editProjectName} from './domforms.js'
 import {findTodoObj, renderTodos, renderAllTodos} from './todos.js'
-import {findProjectObj, projects} from './projects.js'
+import {findProjectObj, projects, storeLocally} from './projects.js'
 import {openProjectOptions, addIcons} from './projectsoptions'
 import {intervalToDuration, parseISO} from 'date-fns'
+import {drawCheck} from './pencil.js'
 
 function makeHeader(){
     let header = document.createElement('div');
@@ -209,12 +210,24 @@ function makeHeader(){
     box.classList.add('checkbox');
     box.setAttribute('data-key', `${object.key}`)
     box.style.borderColor = `${object.color}`
+    
 
     box.addEventListener('click', () => {
-      console.log(`I'm done!`)
-    })
+      drawCheck(box);
+      box.parentElement.querySelector('.edit-icon').remove();
+      setTimeout(() => {
+        box.parentElement.classList.add('checked');
+        box.parentElement.style.border = 'none'
+      }, 250);
+
+      let project = findProjectObj(object.project.key)
+      let index = project.todos.findIndex((e) => e.key == box.getAttribute('data-key'));
+      project.todos.splice(index, 1)
+      storeLocally()
+      
+    }, {once : true});
     return box
   }
 
   
-  export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, tabTitle, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate, checkBox}
+  export{makeHeader, makeTabsBar, makeTabsHeader, mainTab, newTabButton, newTab, tabTitle, makeTodosContainer, newTodoButton, editIcon, todoContainer, todoTitle, todoDescription, dueDate, checkBox, highlightTab, removeHighlight}

@@ -1,4 +1,4 @@
-import {findProjectObj, projects} from './projects.js'
+import {findProjectObj, projects, storeLocally} from './projects.js'
 import {renderAllTodos} from './todos.js'
 import {newTodoButton} from './domelements.js'
 import {editProjectName} from './domforms.js'
@@ -54,6 +54,7 @@ function deleteIcon() {
         projects.splice(myIndex, 1)
         element.remove();
         renderAllTodos();
+        storeLocally()
 
         //the icons trigger both the renderTodos function for the tab, as well as the the delete function, is there a way to separate them?
     });
@@ -66,7 +67,8 @@ function editIcon() {
     btn.addEventListener('click', () => {
         let element = btn.parentElement.parentElement;
         let obj = findProjectObj(element.getAttribute('data-key'));
-        editProjectName(element, obj)
+        editProjectName(element, obj);
+        storeLocally();
     })
     return btn
 };

@@ -1,6 +1,7 @@
-import {instantiateTodo} from './todos.js'
+import {instantiateTodo, renderAllTodos} from './todos.js'
 import {newTab} from './domelements.js'
 import {randomKey} from './keygenerator.js'
+import {parse, stringify, toJSON, fromJSON} from 'flatted';
 
 let projects = [];
 
@@ -32,14 +33,39 @@ function tabColor () {
     let project = instantiateProject(name);
     projects.push(project);
     newTab(name, project.key);
+    storeLocally()
 }
 
 function findProjectObj(dataKey){
     let me = projects.find(element => element.key == dataKey);
     return me
 }
+
+function renderProjects () {
+    projects.forEach(element => {
+        if(element.name !== "All"){
+            newTab(element.name, element.key, document.querySelector('.tabs-bar').childNodes.length-1)
+        }
+    });
+}
  
 projects.push(instantiateProject('All'));
 
+function storeLocally() {
+    localStorage.setItem("myProjects", stringify(projects));
+    console.log(parse(localStorage.myProjects))
+    console.log(projects)
+}
 
-export {projects, instantiateProject, createProject, findProjectObj}
+
+function loadLocalProjects () {
+    if(localStorage.myProjects){
+    projects = parse(localStorage.myProjects)
+    }
+}
+
+
+
+
+
+export {projects, instantiateProject, createProject, findProjectObj, storeLocally, loadLocalProjects, renderProjects}

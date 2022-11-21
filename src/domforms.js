@@ -1,6 +1,6 @@
 import {newTodo, findTodoObj, editTodo} from './todos.js'
 import {editToDOM} from './domindex.js'
-import {createProject, findProjectObj} from './projects.js'
+import {createProject, findProjectObj, storeLocally} from './projects.js'
 import {newTab, newTabButton, tabTitle} from './domelements.js'
 import {addIcons} from './projectsoptions.js'
 
@@ -80,7 +80,7 @@ function titleInput (value) {
     return btn
   }
 
-  function cancelButton (){
+  function cancelButton (project){
     let btn = document.createElement('button');
     btn.textContent = "REMOVE"
     btn.classList.add('cancel-button')
@@ -90,7 +90,11 @@ function titleInput (value) {
     if(btn.parentElement.getAttribute('class') == "create-project-form"){
         newTabButton()
         btn.parentElement.remove()
-    } else {btn.parentElement.parentElement.remove()}
+    } else {
+        btn.parentElement.parentElement.remove()
+    }
+    project.todos.splice(project.todos.indexOf(btn.parentElement.parentElement, project), 1);
+    storeLocally();
     });
     return btn
   }
@@ -160,15 +164,15 @@ function titleInput (value) {
   // ----------------ABOVE: form elements ---------------- BELOW: form logic ----------------//
 
 
-function editTodoForm(todo, project){
-    let obj = findTodoObj(todo, project);
+function editTodoForm(element, project){
+    let obj = findTodoObj(element, project);
     const name = obj.name;
     const description = obj.desc;
     const due = obj.due;
-    while (todo.firstChild) {
-        todo.removeChild(todo.lastChild);
+    while (element.firstChild) {
+        element.removeChild(element.lastChild);
     }
-    renderForm(todo, name, description, due, project);
+    renderForm(element, name, description, due, project);
 };
 
 function createTodoForm (element, project) {
@@ -185,7 +189,7 @@ function renderForm (element, name, description, due, project) {
     btnContainer.appendChild(submitTodoButton(element, project));
     if(name){
         btnContainer.appendChild(cancelEditButton(element, project))
-        btnContainer.appendChild(cancelButton())};
+        btnContainer.appendChild(cancelButton(project))};
     if(name == null) {
         btnContainer.appendChild(cancelAddButton());}
     document.getElementById('title-input').focus();
@@ -199,12 +203,18 @@ function submitTodoForm(element, project) {
     const name = element.querySelector('#title-input').value
     const description = element.querySelector('#description-input').value
     let due = element.querySelector('#deadline-input').value
-    if(element.classList.contains('editable')){
+    if(element.classList.contains('editable') && name !== ""){
         editTodo(element, name, description, due, project);
         editToDOM(element, project);
-    } else{
+    } else if (name !== ""){
         newTodo(name, description, due, project);
         element.remove();
+    } else {
+        element.querySelector('#title-input').setAttribute('placeholder', 'required');
+        element.querySelector('#title-input').classList.add('required')
+        setTimeout(() => {
+            element.querySelector('#title-input').classList.remove('required')
+        }, 300);
     }
 };
 
@@ -249,8 +259,6 @@ function submitWithEnter(element){
 
     element.addEventListener("keydown", (e) => {
     if(e.key === "Enter" && !keysPressed.Shift){
-        console.log(keysPressed)
-        console.log(!keysPressed.Shift)
         element.parentElement.querySelector('.submit-button').click();
         }
     });
